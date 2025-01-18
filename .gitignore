@@ -1,0 +1,25 @@
+# Node.js
+node_modules
+
+# Build directories
+build/
+dist/
+
+# Environment variables
+.env
+
+# Log files
+npm-debug.log
+yarn-error.log
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.bak
