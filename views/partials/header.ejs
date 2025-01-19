@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<nav>
+    <h1>My bookstore</h1>
+    <form action="/search" method="post">
+        <input class="search-input" type="text" name="search" placeholder="Search for a book">
+        <button class="search-icon"><i class="fas fa-search"></i></button>
+    </form>
+    <a class="signIn-link" href="/sign-in">Sign in</a>
+ 
+</nav>
+<body>
+    <div class="header-section">
+        <a href="/">Home <i class="fas fa-house"></i> </a>
+        <a href="/collection">My Collection <i class="fas fa-folder-open"></i> </a>
+        <a class="new-book-link" href="/addBook"> Add a new book <i class="fas fa-plus"> </i> </a>
+   </div>

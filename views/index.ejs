@@ -1,0 +1,24 @@
+ <div class="container">
+       <%-include('partials/header.ejs')%>
+         <% if (locals.books) { %>
+            <div class="books-container">
+                <% books.forEach((book) => { %>
+                    <div class="image-container">
+                        <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
+                        <div class="book-description">
+                            <p><%= book.title %></p>
+                            <p><%=book.author%></p>
+                            <p><%= book.rating %></p>
+                            <a href="">View Review</a>
+                        </div>
+                    </div>
+                       
+                   
+               <% }); %>
+                </div>
+
+            <% } %>
+            
+    </div>
+    <%-include('partials/footer.ejs')%>  
+  
