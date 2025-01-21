@@ -1,10 +1,47 @@
  <div class="container">
        <%-include('partials/header.ejs')%>
+
+       <% if (locals.carouselBooks) { %>
+            <div class="slider-container">
+               <div class = "slider">
+            <% carouselBooks.forEach((book) => { %>
+                <div class="slider-item">
+                    <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
+                    <p>Text for image</p>
+                    <button>Click me</button>
+                </div>
+                
+                <% }) %>
+            </div>
+        </div>
+
+            <button class="prev carousel-arrow">&#10094;</button>
+            <button class="next carousel-arrow">&#10095;</button>
+
+        </div>
+      
+        <% } %> 
+
+
          <% if (locals.books) { %>
+            
             <div class="books-container">
                 <% books.forEach((book) => { %>
                     <div class="image-container">
+                        <div class="image-section">
                         <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
+                        <div class="star-rating">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                              <span class="star <%= i <= book.rating ? 'filled' : '' %>">&#9733;</span>
+                            <% } %>
+                          </div>     
+                        </div>
+                          <!-- <form action="/submit-rating" method="POST">
+                            <label for="newRating">Rate this product:</label>
+                            <input type="number" name="newRating" min="1" max="5" id="newRating" required>
+                            <input type="hidden" name="productId" value="product-123">
+                            <button type="submit">Submit Rating</button>
+                          </form>                             -->
                         <div class="book-description">
                             <p><%= book.title %></p>
                             <p><%=book.author%></p>

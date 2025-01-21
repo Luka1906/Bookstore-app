@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".header-section a");
-  console.log(links);
   const currentPage = window.location.pathname.split(",").pop();
+  const luka = document.querySelector("luka")
 
   links.forEach((link) => {
     link.classList.remove("active");
@@ -12,4 +12,11 @@ window.addEventListener("DOMContentLoaded", () => {
       link.classList.add("active");
     }
   });
+
+ 
+
+
+
+  
 });
+

@@ -1,9 +1,15 @@
 import db from "../config/db.js"
 
-export const getAllBooks = async () => {
+export const getBooks = async () => {
     const result = await db.query("SELECT * FROM books");
     return result.rows
 };
+
+export const getCarouselBooks = async () => {
+    const result = await db.query("SELECT * FROM books ORDER BY id LIMIT 3");
+    console.log(result.rows)
+    return result.rows
+}
 
 
 
