@@ -6,17 +6,32 @@
                <div class = "slider">
             <% carouselBooks.forEach((book) => { %>
                 <div class="slider-item">
-                    <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
-                    <p>Text for image</p>
-                    <button>Click me</button>
+                    <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-L.jpg"/>
+                    <div class="item-content">
+                        <h1><%= book.title %></h1>
+                        <p class="slider-author"><%= book.author %></p>
+                        <div class="star-rating">
+                            <p class="rating-number"><%= book.rating %> out of 5</p>
+                            <div class="star-container">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                              <span class="star <%= i <= book.rating ? 'filled' : '' %>">&#9733;</span>
+                            <% } %>
+                        </div>
+                          </div> 
+                        <p><%= book.description %></p>
+                    
+                        <button>Click for review</button>
+                    </div>
+                    
                 </div>
                 
                 <% }) %>
             </div>
+             <button class="prev ">&#10094;</button>
+            <button class="next ">&#10095;</button>
         </div>
 
-            <button class="prev carousel-arrow">&#10094;</button>
-            <button class="next carousel-arrow">&#10095;</button>
+           
 
         </div>
       
