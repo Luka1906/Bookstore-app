@@ -35,18 +35,27 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   // Show the next slide
-nextButton.addEventListener('click', () => {
-  currentIndex++;
+  nextButton.addEventListener("click", () => {
+    currentIndex++;
+    showSlide(currentIndex);
+  });
+
+  // Show the previous slide
+  prevButton.addEventListener("click", () => {
+    currentIndex--;
+    showSlide(currentIndex);
+  });
+
+  // Initialize the slider
   showSlide(currentIndex);
-});
 
-// Show the previous slide
-prevButton.addEventListener('click', () => {
-  currentIndex--;
-  showSlide(currentIndex);
-});
+  // Book review manipualtion
 
-// Initialize the slider
-showSlide(currentIndex);
+  const bookReview = document.querySelectorAll(".book-review");
 
+  bookReview.forEach((review) => {
+    if (review.textContent.length > 250) {
+      review.textContent = review.textContent.slice(0, 250) + "...";
+    }
+  });
 });

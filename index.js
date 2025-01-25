@@ -15,7 +15,6 @@ app.use("/", bookRoutes);
 app.use("/addBook", bookRoutes);
 app.use("/collection", bookRoutes);
 
-
 // Server set up
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

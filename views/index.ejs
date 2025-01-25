@@ -1,6 +1,8 @@
  <div class="container">
        <%-include('partials/header.ejs')%>
 
+        <!-- Carousel -->
+
        <% if (locals.carouselBooks) { %>
             <div class="slider-container">
                <div class = "slider">
@@ -12,13 +14,22 @@
                         <p class="slider-author"><%= book.author %></p>
                         <div class="star-rating">
                             <p class="rating-number"><%= book.rating %> out of 5</p>
-                            <div class="star-container">
-                            <% for (let i = 1; i <= 5; i++) { %>
-                              <span class="star <%= i <= book.rating ? 'filled' : '' %>">&#9733;</span>
-                            <% } %>
-                        </div>
+                           
+                              <% for (let i = 1; i <= 5; i++) { %>
+                                <% if (i <= Math.floor(book.rating)) { %>
+                                  <!-- Full Star -->
+                                  <span class="star filled">&#9733;</span>
+                                <% } else if (i === Math.floor(book.rating) + 1 && book.rating % 1 !== 0) { %>
+                                  <!-- Half Star (if rating has a decimal part) -->
+                                  <span class="star half-filled">&#9733;</span>
+                                <% } else { %>
+                                  <!-- Empty Star -->
+                                  <span class="star">&#9733;</span>
+                                <% } %>
+                              <% } %>
+                           
                           </div> 
-                        <p><%= book.description %></p>
+                        <p class="book-review"><%= book.description %></p>
                     
                         <button>Click for review</button>
                     </div>
@@ -29,27 +40,50 @@
             </div>
              <button class="prev ">&#10094;</button>
             <button class="next ">&#10095;</button>
-        </div>
-
-           
-
-        </div>
-      
-        <% } %> 
-
+        </div> 
+     </div>
+          <% } %> 
+          <!-- Main Part -->
 
          <% if (locals.books) { %>
+          <div class="select-dropdown">
+            <label for="sort">Sort By: </label>
+            <select name="sort" id="sort">
+              <option value="recommended">Recommended</option>
+              <option value="rating">Rating</option>
+              <option value="date">Newest</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
+          <div class="books-wrapper">
             
-            <div class="books-container">
+              <div class="sort-books-section">
+                  <div class="collection-wrapper">
+                    <h2 class="collection-heading">Collections</h2>
+                    <ul class="collection-options">
+                      <li>My Favourites </li>
+                      <li>Add to Collection</li>
+                    </ul>
+
+                  </div>
+                
+                  <div class="genre-options">
+                     <h2 class="genre-heading">Genres</h2>
+                      <ul class="genres-list">
+                        <% genres.forEach((genre) => { %>
+                          <li><%= genre %></li>   
+                      <% }) %>
+                        </ul>
+                  </div>         
+              </div>
+
+              <div class="books-section">
                 <% books.forEach((book) => { %>
                     <div class="image-container">
+                      <i class="far fa-heart heart-icon"></i>
                         <div class="image-section">
                         <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
-                        <div class="star-rating">
-                            <% for (let i = 1; i <= 5; i++) { %>
-                              <span class="star <%= i <= book.rating ? 'filled' : '' %>">&#9733;</span>
-                            <% } %>
-                          </div>     
+                      
                         </div>
                           <!-- <form action="/submit-rating" method="POST">
                             <label for="newRating">Rate this product:</label>
@@ -58,19 +92,18 @@
                             <button type="submit">Submit Rating</button>
                           </form>                             -->
                         <div class="book-description">
-                            <p><%= book.title %></p>
+                            <p class="book-title"><%= book.title %></p>
                             <p><%=book.author%></p>
-                            <p><%= book.rating %></p>
-                            <a href="">View Review</a>
                         </div>
                     </div>
                        
                    
                <% }); %>
                 </div>
+              </div>
 
             <% } %>
-            
-    </div>
-    <%-include('partials/footer.ejs')%>  
+          
+
+<%-include('partials/footer.ejs')%>  
   
