@@ -88,7 +88,6 @@ nav {
 
 .slider {
   display: flex;
-
   transition: transform 0.5s ease-in-out;
 }
 .slider-item {
@@ -114,12 +113,14 @@ nav {
   line-height: 1.5rem;
   text-align: justify;
 }
-.slider-item button {
-  padding: 10px 10px;
-  font-size: 0.9rem;
+.slider-item .book-link{
+  text-decoration: none;
+  padding: 10px;
+  
   cursor: pointer;
   /* margin-top: 10px; */
   background-color: #d85c00;
+  text-align: center;
   font-weight: 700;
   color: #f8f8f8;
   border: none;
@@ -128,7 +129,7 @@ nav {
 }
 
 .slider-item button:hover {
-  background-color: #0056b3;
+  /* background-color: #0056b3; */
 }
 /* Navigation buttons */
 
@@ -137,7 +138,7 @@ nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding: 10px;
+  padding: 0.9rem;
   font-size: 1.5em;
   background-color: #333;
   color: #f8f8f8;
@@ -165,29 +166,25 @@ nav {
 }
 select {
   appearance: none;
-  background: url('../assets/images/arrow-down.svg') no-repeat right 10px center;
+  background: url("../assets/images/arrow-down.svg") no-repeat right 10px center;
   background-size: 12px;
-  padding-right: 30px; /* Add space for the arrow */
-  width: 200px;        
-  padding: 10px;     
-  border: 1px solid #d3d3d3; 
-  border-radius: 5px;   
-  background-color: #f8f8f8; 
-  font-size: 16px;     
-  color: #333;       
-  outline: none;   
+  padding-right: 30px; 
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  color: #333;
+  outline: none;
   cursor: pointer;
 }
-
 
 .books-wrapper {
   display: grid;
   grid-template-columns: 15% 85%;
 }
 
-.sort-books-section {
-  background-color: lightblue;
-}
 
 .books-section {
   display: grid;
@@ -202,7 +199,6 @@ select {
   background-color: #f0f0f0;
   padding: 2rem;
   position: relative;
-  
 }
 
 .heart-icon {
@@ -215,7 +211,6 @@ select {
 .image-container img {
   width: 9rem;
   height: 13rem;
- 
 }
 
 .book-description {
@@ -237,11 +232,39 @@ select {
 /* Sorting Section */
 
 .sort-books-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   background-color: #f8f8f8;
   padding: 0 1rem;
 }
 
-.collection-heading, .genre-heading {
+.aside-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aside-arrow-down,
+.aside-arrow-up {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+.aside-arrow-down:hover,
+.aside-arrow-up:hover {
+  color: #ccc;
+}
+.aside-arrow-down:active,
+.aside-arrow-up:active {
+  transform: scale(1.2);
+}
+.hidden {
+  display: none;
+}
+.collection-heading,
+.genre-heading {
   color: #d85c00;
   border-bottom: 1.5px solid #d3d3d3;
   width: 80%;
@@ -250,19 +273,13 @@ select {
 .collection-options li {
   list-style: none;
   padding: 0.8rem 0;
- }
-
-.genre-heading {
- position: relative;
- margin-top: 2rem;
 }
 
-.genres-list li {
+
+.genre-options li {
   list-style: none;
   padding: 0.4rem 0;
-  
 }
-
 
 /* Rating (stars) */
 
@@ -297,6 +314,14 @@ select {
   -webkit-background-clip: text; /* Clip the gradient to the text */
   color: transparent; /* Make the text color transparent to show the gradient */
   display: inline-block;
+}
+
+footer {
+  text-align: center;
+  position: relative;
+  top: 3rem;
+  font-size: 0.9rem;
+  padding: 2rem 0;
 }
 
 /* form {

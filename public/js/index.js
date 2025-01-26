@@ -58,4 +58,37 @@ window.addEventListener("DOMContentLoaded", () => {
       review.textContent = review.textContent.slice(0, 250) + "...";
     }
   });
+
+  // Display/Hidden Sorting Customization
+  
+ // Function to initialize toggle behavior for a section
+const initializeToggle = (arrowUpSelector, arrowDownSelector, contentSelector) => {
+  const arrowUp = document.querySelector(arrowUpSelector);
+  const arrowDown = document.querySelector(arrowDownSelector);
+  const content = document.querySelector(contentSelector);
+  const originalContent = content.innerHTML;
+
+  // Hide content logic
+  const hideContent = () => {
+    arrowUp.classList.add("hidden");
+    arrowDown.classList.remove("hidden");
+    content.innerHTML = ""; // Clear content
+  };
+
+  // Show content logic
+  const showContent = () => {
+    arrowDown.classList.add("hidden");
+    arrowUp.classList.remove("hidden");
+    content.innerHTML = originalContent; // Restore original content
+  };
+
+  // Add event listeners
+  arrowUp.addEventListener("click", hideContent);
+  arrowDown.addEventListener("click", showContent);
+};
+
+// Initialize toggles for all sections
+initializeToggle(".collection-arrow-up", ".collection-arrow-down", ".collection-options");
+initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
+
 });

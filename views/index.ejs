@@ -31,7 +31,7 @@
                           </div> 
                         <p class="book-review"><%= book.description %></p>
                     
-                        <button>Click for review</button>
+                        <a class="book-link" href="book/<%=book.book_id%>" target="_blank">Click for more</a>
                     </div>
                     
                 </div>
@@ -55,21 +55,29 @@
               <option value="title">Title</option>
             </select>
           </div>
-          <div class="books-wrapper">
-            
+          <div class="books-wrapper">    
               <div class="sort-books-section">
                   <div class="collection-wrapper">
-                    <h2 class="collection-heading">Collections</h2>
+                    <div class="collection-header aside-header">
+                      <h2 class="collection-heading">Collections</h2>
+                      <button class="collection-arrow-up aside-arrow-up"> <i class="fas fa-chevron-up"></i></button>
+                     <button class="collection-arrow-down aside-arrow-down hidden"> <i class="fas fa-chevron-down"></i></button>
+                    </div>
                     <ul class="collection-options">
+                      <li>All (<%= bookCount %>)</li>
                       <li>My Favourites </li>
                       <li>Add to Collection</li>
                     </ul>
 
                   </div>
                 
-                  <div class="genre-options">
-                     <h2 class="genre-heading">Genres</h2>
-                      <ul class="genres-list">
+                  <div class="genre-wrapper">
+                    <div class="genre-header aside-header">
+                      <h2 class="genre-heading">Genres</h2>
+                      <button class="genre-arrow-up aside-arrow-up"> <i class="fas fa-chevron-up"></i></button>
+                      <button class="genre-arrow-down aside-arrow-down hidden"> <i class="fas fa-chevron-down"></i></button>
+                    </div>
+                      <ul class="genre-options">
                         <% genres.forEach((genre) => { %>
                           <li><%= genre %></li>   
                       <% }) %>
@@ -82,8 +90,7 @@
                     <div class="image-container">
                       <i class="far fa-heart heart-icon"></i>
                         <div class="image-section">
-                        <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/>
-                      
+                          <a href="book/<%= book.book_id %>" target="_blank"><img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/></a>
                         </div>
                           <!-- <form action="/submit-rating" method="POST">
                             <label for="newRating">Rate this product:</label>
