@@ -1,0 +1,29 @@
+
+<%-include("partials/header.ejs", {books})%>
+<% if(locals.book) { %>
+    <div class="book-details">
+
+            <img class="details-img" src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-L.jpg"/>
+           
+        <div class="details">
+            <h1 class="details-title"><%= book.title %></h1>
+            <div class="author-details">
+                <p>by</p>
+                <h3 class="author-name"><%= book.author %></h3>
+            </div>
+            <p>Date read: <%= book.date.toLocaleDateString('en-US') %></p>
+            <div class="details-rating">
+            <p>My rating:</p>
+            <%- include('partials/bookRating.ejs', {book}) %>
+
+            </div>
+            
+            <p class="details-description"><%= book.description %></p>
+        </div>
+      
+       
+    
+    </div>
+   
+<% } %>
+<%-include('partials/footer.ejs')%>ƒ

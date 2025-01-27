@@ -14,7 +14,8 @@ app.use(express.static("public"));
 app.use("/", bookRoutes);
 app.use("/addBook", bookRoutes);
 app.use("/collection", bookRoutes);
-app.use("/book:id", bookRoutes )
+app.use("/book:id", bookRoutes );
+app.use("/sort", bookRoutes)
 
 // Server set up
 app.listen(port, () => {

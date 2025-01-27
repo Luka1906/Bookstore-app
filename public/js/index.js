@@ -1,3 +1,5 @@
+import axios from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
+
 window.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".header-section a");
   const currentPage = window.location.pathname.split(",").pop();
@@ -9,9 +11,11 @@ window.addEventListener("DOMContentLoaded", () => {
   links.forEach((link) => {
     if (link.getAttribute("href") === currentPage) {
       link.classList.add("active");
+    } else if (currentPage.startsWith("/book")) {
+      document.querySelector(".home-page").classList.add("active");
     }
   });
-
+  console.log(currentPage);
   // Slider functionality
 
   let currentIndex = 0;
@@ -60,35 +64,71 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Display/Hidden Sorting Customization
-  
- // Function to initialize toggle behavior for a section
-const initializeToggle = (arrowUpSelector, arrowDownSelector, contentSelector) => {
-  const arrowUp = document.querySelector(arrowUpSelector);
-  const arrowDown = document.querySelector(arrowDownSelector);
-  const content = document.querySelector(contentSelector);
-  const originalContent = content.innerHTML;
 
-  // Hide content logic
-  const hideContent = () => {
-    arrowUp.classList.add("hidden");
-    arrowDown.classList.remove("hidden");
-    content.innerHTML = ""; // Clear content
+  // Function to initialize toggle behavior for a section
+  const initializeToggle = (
+    arrowUpSelector,
+    arrowDownSelector,
+    contentSelector
+  ) => {
+    const arrowUp = document.querySelector(arrowUpSelector);
+    const arrowDown = document.querySelector(arrowDownSelector);
+    const content = document.querySelector(contentSelector);
+    const originalContent = content.innerHTML;
+
+    // Hide content logic
+    const hideContent = () => {
+      arrowUp.classList.add("hidden");
+      arrowDown.classList.remove("hidden");
+      content.innerHTML = ""; // Clear content
+    };
+
+    // Show content logic
+    const showContent = () => {
+      arrowDown.classList.add("hidden");
+      arrowUp.classList.remove("hidden");
+      content.innerHTML = originalContent; // Restore original content
+    };
+
+    // Add event listeners
+    arrowUp.addEventListener("click", hideContent);
+    arrowDown.addEventListener("click", showContent);
   };
 
-  // Show content logic
-  const showContent = () => {
-    arrowDown.classList.add("hidden");
-    arrowUp.classList.remove("hidden");
-    content.innerHTML = originalContent; // Restore original content
-  };
+  // Initialize toggles for all sections
+  initializeToggle(
+    ".collection-arrow-up",
+    ".collection-arrow-down",
+    ".collection-options"
+  );
+  initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
 
-  // Add event listeners
-  arrowUp.addEventListener("click", hideContent);
-  arrowDown.addEventListener("click", showContent);
-};
+  // Make axios request for sorting books
+  document.querySelector("#sort").addEventListener("change", async (event) => {
+    try {
+      const selectedValue = event.target.value;
+      if (selectedValue) {
+        const response = await axios.get(`/sortBy?option=${selectedValue}`);
+        const booksSection = document.querySelector(".books-section");
+        booksSection.innerHTML = "";
 
-// Initialize toggles for all sections
-initializeToggle(".collection-arrow-up", ".collection-arrow-down", ".collection-options");
-initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
-
+        response.data.forEach((book) => {
+          const bookDiv = document.createElement("div");
+          bookDiv.classList.add("image-container");
+          bookDiv.innerHTML = `  <i class="far fa-heart heart-icon"></i>
+                        <div class="image-section">
+                          <a href="book/${book.book_id}" target="_blank"><img src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg"/></a>
+                        </div>
+                                      -->
+                        <div class="book-description">
+                            <p class="book-title">${book.title}</p>
+                            <p>${book.author}</p>
+                        </div>`;
+          booksSection.appendChild(bookDiv);
+        });
+      }
+    } catch (error) {
+      console.log("Error fetching sorted data:", error)
+    }
+  });
 });

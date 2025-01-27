@@ -12,23 +12,7 @@
                     <div class="item-content">
                         <h1><%= book.title %></h1>
                         <p class="slider-author"><%= book.author %></p>
-                        <div class="star-rating">
-                            <p class="rating-number"><%= book.rating %> out of 5</p>
-                           
-                              <% for (let i = 1; i <= 5; i++) { %>
-                                <% if (i <= Math.floor(book.rating)) { %>
-                                  <!-- Full Star -->
-                                  <span class="star filled">&#9733;</span>
-                                <% } else if (i === Math.floor(book.rating) + 1 && book.rating % 1 !== 0) { %>
-                                  <!-- Half Star (if rating has a decimal part) -->
-                                  <span class="star half-filled">&#9733;</span>
-                                <% } else { %>
-                                  <!-- Empty Star -->
-                                  <span class="star">&#9733;</span>
-                                <% } %>
-                              <% } %>
-                           
-                          </div> 
+                       <%- include('partials/bookRating.ejs', {book}) %>
                         <p class="book-review"><%= book.description %></p>
                     
                         <a class="book-link" href="book/<%=book.book_id%>" target="_blank">Click for more</a>
@@ -46,15 +30,18 @@
           <!-- Main Part -->
 
          <% if (locals.books) { %>
-          <div class="select-dropdown">
-            <label for="sort">Sort By: </label>
-            <select name="sort" id="sort">
-              <option value="recommended">Recommended</option>
-              <option value="rating">Rating</option>
-              <option value="date">Newest</option>
-              <option value="title">Title</option>
-            </select>
-          </div>
+          <form class="sort-form" action="/sort" method="post"></form>
+            <div class="select-dropdown">
+              <label for="sort">Sort By: </label>
+              <select name="sort" id="sort">
+                <option value="favourite">Recommended</option>
+                <option value="rating">Rating</option>
+                <option value="date">Newest</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+         
+       
           <div class="books-wrapper">    
               <div class="sort-books-section">
                   <div class="collection-wrapper">

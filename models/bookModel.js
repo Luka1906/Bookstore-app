@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 
 export const getBooks = async () => {
-  const result = await db.query("SELECT * FROM books");
+  const result = await db.query("SELECT * FROM books ORDER BY id");
 
   return {rows:result.rows, rowCount:result.rowCount}
 };

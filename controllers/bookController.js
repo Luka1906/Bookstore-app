@@ -45,7 +45,7 @@ export const getBook = async (req, res) => {
     const bookArray = await Book.getBook(id);
     const book = bookArray ? bookArray[0] : "No data";
 
-    res.render("bookMore.ejs", { book });
+    res.render("bookDetails.ejs", { book });
   } catch (error) {
     res.status(500).send("Error fetching book");
   }
