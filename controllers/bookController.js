@@ -5,7 +5,6 @@ export const getAllBooks = async (req, res) => {
     const books = await Book.getBooks();
     const bookData = books.rows;
     const bookCount = books.rowCount;
-
     // Modyfing categories before sendin on the front
 
     const categories = bookData.map((book) => book.category);
@@ -41,9 +40,9 @@ export const addNewBook = async (req, res) => {
 export const getBook = async (req, res) => {
   try {
     const { id } = req.params;
-
     const bookArray = await Book.getBook(id);
     const book = bookArray ? bookArray[0] : "No data";
+    console.log(book)
 
     res.render("bookDetails.ejs", { book });
   } catch (error) {
@@ -52,5 +51,13 @@ export const getBook = async (req, res) => {
 };
 
 export const getCollection = async (req, res) => {
-  res.render("collection.ejs");
+  try {
+    const favourites = await Book.getFavourites();
+    res.render("favourites.ejs", {favourites});
+    
+  } catch (error) {
+    res.status(500).send("Error fetching favourite books")
+  }
+
+
 };

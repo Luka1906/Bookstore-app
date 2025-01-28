@@ -1,4 +1,6 @@
-import axios from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
+
+
+// import axios from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
 
 window.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".header-section a");
@@ -69,7 +71,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const initializeToggle = (
     arrowUpSelector,
     arrowDownSelector,
-    contentSelector
+    contentSelector,
+    iconSelector
   ) => {
     const arrowUp = document.querySelector(arrowUpSelector);
     const arrowDown = document.querySelector(arrowDownSelector);
@@ -108,21 +111,23 @@ window.addEventListener("DOMContentLoaded", () => {
     try {
       const selectedValue = event.target.value;
       if (selectedValue) {
-        const response = await axios.get(`/sortBy?option=${selectedValue}`);
+        // eslint-disable-next-line no-undef
+        const result = await axios.get(`http://localhost:3000/sortBy?option=${selectedValue}`);
         const booksSection = document.querySelector(".books-section");
         booksSection.innerHTML = "";
 
-        response.data.forEach((book) => {
+
+        result.data.bookSorted.forEach((book) => {
           const bookDiv = document.createElement("div");
           bookDiv.classList.add("image-container");
-          bookDiv.innerHTML = `  <i class="far fa-heart heart-icon"></i>
+          bookDiv.innerHTML = `<i class="far fa-heart heart-icon"></i>
                         <div class="image-section">
                           <a href="book/${book.book_id}" target="_blank"><img src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg"/></a>
                         </div>
-                                      -->
                         <div class="book-description">
                             <p class="book-title">${book.title}</p>
                             <p>${book.author}</p>
+                             <%- include('partials/bookRating.ejs', {book}) %>
                         </div>`;
           booksSection.appendChild(bookDiv);
         });
@@ -131,4 +136,26 @@ window.addEventListener("DOMContentLoaded", () => {
       console.log("Error fetching sorted data:", error)
     }
   });
+
+  // Adding books to favourites collection
+ 
+    const hearts = document.querySelectorAll(".heart-icon");
+    console.log(hearts[0].dataset.id)
+  
+    hearts.forEach((heart) => {
+      heart.addEventListener("click", async () => {
+        try {
+
+          const result = await axios.put(`http://localhost:3000/addToFavourites`, {id:heart.dataset.id});
+          console.log(`Updated user with id ${result.data.id}`)
+        } catch (error) {
+          console.log(`Error:`,error)
+        }
+        console.log(heart.dataset.id)
+        
+        heart.classList.toggle("far]"); // Toggle empty heart
+        heart.classList.toggle("fas"); // Toggle full heart
+      });
+    });
+
 });

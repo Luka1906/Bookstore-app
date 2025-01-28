@@ -15,6 +15,11 @@ export const getCarouselBooks = async () => {
 export const getBook = async (id) => {
   const result = await db.query ("SELECT * FROM books WHERE book_id=$1", [id]);
   return result.rows;
+};
+
+export const getFavourites = async () => {
+  const result =  await db.query("SELECT * FROM books WHERE favourite=true");
+  return result.rows;
 }
 
 // let books = [];

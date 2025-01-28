@@ -202,11 +202,12 @@ select {
   position: relative;
 }
 
-.heart-icon {
+.fa-heart {
   position: absolute;
   top: 15px;
   right: 15px;
   font-size: 1.15rem;
+  cursor: pointer;
 }
 
 .image-container img {
@@ -262,7 +263,7 @@ select {
   transform: scale(1.2);
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 .collection-heading,
 .genre-heading {
@@ -325,7 +326,7 @@ select {
 
 /* Rating (stars) */
 
-.star-rating {
+.rating {
   color: lightgray;
   display: flex;
   align-items: center;

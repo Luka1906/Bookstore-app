@@ -11,8 +11,11 @@
                     <img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-L.jpg"/>
                     <div class="item-content">
                         <h1><%= book.title %></h1>
+                        <div class="rating">            
+                          <%- include('partials/bookRating.ejs', {book}) %>
+                          <p class="rating-number"><%= book.rating %> out of 5</p>
+                        </div>
                         <p class="slider-author"><%= book.author %></p>
-                       <%- include('partials/bookRating.ejs', {book}) %>
                         <p class="book-review"><%= book.description %></p>
                     
                         <a class="book-link" href="book/<%=book.book_id%>" target="_blank">Click for more</a>
@@ -75,7 +78,9 @@
               <div class="books-section">
                 <% books.forEach((book) => { %>
                     <div class="image-container">
-                      <i class="far fa-heart heart-icon"></i>
+                     
+                      <i class="fas fa-heart heart-full-icon hidden"></i>
+                      <i class="far fa-heart heart-icon" data-id=<%= book.book_id %>></i>
                         <div class="image-section">
                           <a href="book/<%= book.book_id %>" target="_blank"><img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/></a>
                         </div>
@@ -89,6 +94,7 @@
                             <p class="book-title"><%= book.title %></p>
                             <p><%=book.author%></p>
                         </div>
+                      <%- include('partials/bookRating.ejs', {book}) %>
                     </div>
                        
                    

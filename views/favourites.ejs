@@ -1,0 +1,21 @@
+
+    <%-include("partials/header.ejs")%>
+    <% if (locals.favourites) {%>
+    <div class="books-section">
+        <% favourites.forEach((favourite) => { %>
+            <div class="image-container">
+              <!-- <i class="far fa-heart heart-icon"></i> -->
+                <div class="image-section">
+                 <img src="https://covers.openlibrary.org/b/id/<%=favourite.book_id%>-M.jpg"/>
+                </div>
+                <div class="book-description">
+                    <p class="book-title"><%= favourite.title %></p>
+                    <p><%=favourite.author%></p>
+                </div>
+            </div>
+               
+           
+       <% }); %>
+        </div>
+        <% } %>
+    <%-include('partials/footer.ejs')%>
