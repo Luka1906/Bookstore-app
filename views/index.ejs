@@ -77,10 +77,9 @@
 
               <div class="books-section">
                 <% books.forEach((book) => { %>
-                    <div class="image-container">
-                     
-                      <i class="fas fa-heart heart-full-icon hidden"></i>
-                      <i class="far fa-heart heart-icon" data-id=<%= book.book_id %>></i>
+                    <div class="image-container"> 
+                      <i class="fas fa-heart heart-full-icon hidden image-heart"></i>
+                      <i class="far fa-heart heart-icon image-heart" data-id=<%= book.book_id %>></i>
                         <div class="image-section">
                           <a href="book/<%= book.book_id %>" target="_blank"><img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/></a>
                         </div>

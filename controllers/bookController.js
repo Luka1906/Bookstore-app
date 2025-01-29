@@ -1,11 +1,14 @@
 import * as Book from "../models/bookModel.js";
+import fs from "fs";
+import path from "path";
 
 export const getAllBooks = async (req, res) => {
   try {
     const books = await Book.getBooks();
     const bookData = books.rows;
     const bookCount = books.rowCount;
-    // Modyfing categories before sendin on the front
+   
+    // Extract and process unique categories
 
     const categories = bookData.map((book) => book.category);
     const allCategories = categories.flatMap((category) =>
@@ -19,6 +22,8 @@ export const getAllBooks = async (req, res) => {
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
           .join(" ") // Join the words back into a sentence
     );
+
+        // Fetch books for the carousel
 
     const carouselBooks = await Book.getCarouselBooks();
 

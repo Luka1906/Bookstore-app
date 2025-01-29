@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 
 // import axios from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
@@ -107,6 +108,8 @@ window.addEventListener("DOMContentLoaded", () => {
   initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
 
   // Make axios request for sorting books
+
+
   document.querySelector("#sort").addEventListener("change", async (event) => {
     try {
       const selectedValue = event.target.value;
