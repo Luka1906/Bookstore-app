@@ -191,11 +191,13 @@ select {
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
   padding-right: 1.5rem;
+  font-size: 0.9rem;
 }
 .image-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 0.5rem;
   align-items: center;
   background-color: #f0f0f0;
   padding: 1.5rem;
@@ -223,13 +225,20 @@ select {
   text-align: center;
   justify-content: center;
   gap: 0.4rem;
-  font-size: 0.9rem;
+
 }
 .book-title {
   font-weight: 700;
-  font-size: 0.9rem;
   margin-top: 0.4rem;
+  width: 18rem;
 }
+
+.book-date {
+  color:#999999;
+  width: 10rem;
+  text-align: center;
+}
+
 
 /* Sorting Section */
 
@@ -274,12 +283,19 @@ select {
 
 .collection-options li {
   list-style: none;
+  cursor: pointer;
   padding: 0.8rem 0;
 }
+.collection-options li a {
+ text-decoration: none;
+ color: #333;
+}
+
 
 .genre-options li {
   list-style: none;
   padding: 0.4rem 0;
+  cursor:pointer
 }
 
 /* Book Details Page */

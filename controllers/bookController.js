@@ -1,10 +1,11 @@
 import * as Book from "../models/bookModel.js";
-import fs from "fs";
-import path from "path";
 
 export const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.getBooks();
+    const [books, carouselBooks] = await Promise.all([
+      Book.getBooks(),
+      Book.getCarouselBooks(),
+    ]);
     const bookData = books.rows;
     const bookCount = books.rowCount;
    
@@ -23,10 +24,6 @@ export const getAllBooks = async (req, res) => {
           .join(" ") // Join the words back into a sentence
     );
 
-        // Fetch books for the carousel
-
-    const carouselBooks = await Book.getCarouselBooks();
-
     res.render("index.ejs", {
       books: bookData,
       bookCount,
@@ -37,6 +34,7 @@ export const getAllBooks = async (req, res) => {
     res.status(500).send("Error fetching books");
   }
 };
+
 
 export const addNewBook = async (req, res) => {
   res.render("addBook.ejs");

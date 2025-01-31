@@ -3,7 +3,6 @@
 
         <!-- Carousel -->
 
-       <% if (locals.carouselBooks) { %>
             <div class="slider-container">
                <div class = "slider">
             <% carouselBooks.forEach((book) => { %>
@@ -29,16 +28,14 @@
             <button class="next ">&#10095;</button>
         </div> 
      </div>
-          <% } %> 
+       
           <!-- Main Part -->
 
-         <% if (locals.books) { %>
           <form class="sort-form" action="/sort" method="post"></form>
             <div class="select-dropdown">
               <label for="sort">Sort By: </label>
               <select name="sort" id="sort">
-                <option value="favourite">Recommended</option>
-                <option value="rating">Rating</option>
+                <option value="rating">Recommended</option>
                 <option value="date">Newest</option>
                 <option value="title">Title</option>
               </select>
@@ -54,9 +51,9 @@
                      <button class="collection-arrow-down aside-arrow-down hidden"> <i class="fas fa-chevron-down"></i></button>
                     </div>
                     <ul class="collection-options">
-                      <li>All (<%= bookCount %>)</li>
-                      <li>My Favourites </li>
-                      <li>Add to Collection</li>
+                     <li class="allBooks-list-item">All (<%= bookCount %>)</li>
+                      <li><a href="/favourites">My Favourites</a> </li>
+                      <li><a href="/addBook">Add To Collection</a> </li>
                     </ul>
 
                   </div>
@@ -69,7 +66,7 @@
                     </div>
                       <ul class="genre-options">
                         <% genres.forEach((genre) => { %>
-                          <li><%= genre %></li>   
+                          <li class="genres" data-genre=<%=genre %>><%= genre %></li>   
                       <% }) %>
                         </ul>
                   </div>         
@@ -94,14 +91,18 @@
                             <p><%=book.author%></p>
                         </div>
                       <%- include('partials/bookRating.ejs', {book}) %>
+                    
+                      <div class="book-date">Date read: <%= book.date.toLocaleDateString('en-US') %></div>
+             
                     </div>
+                   
                        
                    
                <% }); %>
                 </div>
               </div>
 
-            <% } %>
+  
           
 
 <%-include('partials/footer.ejs')%>  

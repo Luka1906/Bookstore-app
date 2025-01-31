@@ -1,0 +1,12 @@
+/* Book Details Page */
+
+.book-details {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+}
+
+.details {
+  border: 2px solid red;
+}

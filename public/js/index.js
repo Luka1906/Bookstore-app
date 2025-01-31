@@ -1,8 +1,3 @@
-/* eslint-disable no-undef */
-
-
-// import axios from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
-
 window.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".header-section a");
   const currentPage = window.location.pathname.split(",").pop();
@@ -12,153 +7,156 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   links.forEach((link) => {
-    if (link.getAttribute("href") === currentPage) {
-      link.classList.add("active");
-    } else if (currentPage.startsWith("/book")) {
-      document.querySelector(".home-page").classList.add("active");
-    }
+    link.classList.toggle("active", link.getAttribute("href") === currentPage || (currentPage.startsWith("/book") && link.classList.contains("home-page")));
   });
-  console.log(currentPage);
-  // Slider functionality
 
+  // Slider functionality
   let currentIndex = 0;
   const slides = document.querySelectorAll(".slider-item");
   const totalSlides = slides.length;
   const slider = document.querySelector(".slider");
-
   const prevButton = document.querySelector(".prev");
   const nextButton = document.querySelector(".next");
 
-  // Show the current slide
   const showSlide = (index) => {
     if (index >= totalSlides) {
       currentIndex = 0;
     } else if (index < 0) {
       currentIndex = totalSlides - 1;
     }
-
-    // Move the slider to the correct position
     slider.style.transform = `translateX(-${currentIndex * 100}%)`;
   };
 
-  // Show the next slide
-  nextButton.addEventListener("click", () => {
-    currentIndex++;
-    showSlide(currentIndex);
-  });
-
-  // Show the previous slide
-  prevButton.addEventListener("click", () => {
-    currentIndex--;
-    showSlide(currentIndex);
-  });
-
-  // Initialize the slider
+  nextButton.addEventListener("click", () => showSlide(++currentIndex));
+  prevButton.addEventListener("click", () => showSlide(--currentIndex));
   showSlide(currentIndex);
 
-  // Book review manipualtion
-
-  const bookReview = document.querySelectorAll(".book-review");
-
-  bookReview.forEach((review) => {
+  // Book review manipulation
+  document.querySelectorAll(".book-review").forEach((review) => {
     if (review.textContent.length > 250) {
       review.textContent = review.textContent.slice(0, 250) + "...";
     }
   });
 
-  // Display/Hidden Sorting Customization
-
-  // Function to initialize toggle behavior for a section
-  const initializeToggle = (
-    arrowUpSelector,
-    arrowDownSelector,
-    contentSelector,
-    iconSelector
-  ) => {
+  // Sorting & Genre toggles
+  const initializeToggle = (arrowUpSelector, arrowDownSelector, contentSelector) => {
     const arrowUp = document.querySelector(arrowUpSelector);
     const arrowDown = document.querySelector(arrowDownSelector);
     const content = document.querySelector(contentSelector);
     const originalContent = content.innerHTML;
 
-    // Hide content logic
     const hideContent = () => {
       arrowUp.classList.add("hidden");
       arrowDown.classList.remove("hidden");
-      content.innerHTML = ""; // Clear content
+      content.innerHTML = "";
     };
 
-    // Show content logic
     const showContent = () => {
       arrowDown.classList.add("hidden");
       arrowUp.classList.remove("hidden");
-      content.innerHTML = originalContent; // Restore original content
+      content.innerHTML = originalContent;
     };
 
-    // Add event listeners
     arrowUp.addEventListener("click", hideContent);
     arrowDown.addEventListener("click", showContent);
   };
 
-  // Initialize toggles for all sections
-  initializeToggle(
-    ".collection-arrow-up",
-    ".collection-arrow-down",
-    ".collection-options"
-  );
+  initializeToggle(".collection-arrow-up", ".collection-arrow-down", ".collection-options");
   initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
 
-  // Make axios request for sorting books
+  const generateStarRating = (rating) => {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+      if (i <= Math.floor(rating)) {
+        stars += '<span class="star filled">&#9733;</span>';
+      } else if (i === Math.floor(rating) + 1 && rating % 1 !== 0) {
+        stars += '<span class="star half-filled">&#9733;</span>';
+      } else {
+        stars += '<span class="star">&#9733;</span>';
+      }
+    }
+    return `<div class="book-rating">${stars}</div>`;
+  };
 
-
+  // Sorting books by selected option
   document.querySelector("#sort").addEventListener("change", async (event) => {
     try {
       const selectedValue = event.target.value;
       if (selectedValue) {
-        // eslint-disable-next-line no-undef
         const result = await axios.get(`http://localhost:3000/sortBy?option=${selectedValue}`);
-        const booksSection = document.querySelector(".books-section");
-        booksSection.innerHTML = "";
-
-
-        result.data.bookSorted.forEach((book) => {
-          const bookDiv = document.createElement("div");
-          bookDiv.classList.add("image-container");
-          bookDiv.innerHTML = `<i class="far fa-heart heart-icon"></i>
-                        <div class="image-section">
-                          <a href="book/${book.book_id}" target="_blank"><img src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg"/></a>
-                        </div>
-                        <div class="book-description">
-                            <p class="book-title">${book.title}</p>
-                            <p>${book.author}</p>
-                             <%- include('partials/bookRating.ejs', {book}) %>
-                        </div>`;
-          booksSection.appendChild(bookDiv);
-        });
+        renderBooks(result.data.bookSorted);
       }
     } catch (error) {
-      console.log("Error fetching sorted data:", error)
+      console.log("Error fetching sorted data:", error);
     }
   });
 
-  // Adding books to favourites collection
- 
-    const hearts = document.querySelectorAll(".heart-icon");
-    console.log(hearts[0].dataset.id)
-  
-    hearts.forEach((heart) => {
-      heart.addEventListener("click", async () => {
-        try {
-
-          const result = await axios.put(`http://localhost:3000/addToFavourites`, {id:heart.dataset.id});
-          console.log(`Updated user with id ${result.data.id}`)
-        } catch (error) {
-          console.log(`Error:`,error)
-        }
-        console.log(heart.dataset.id)
-        
-        heart.classList.toggle("far]"); // Toggle empty heart
-        heart.classList.toggle("fas"); // Toggle full heart
-      });
+  // Genre-based Sorting
+  document.querySelectorAll(".genres").forEach((genre) => {
+    genre.addEventListener("click", async () => {
+      const selectedGenre = genre.textContent.toLowerCase();
+      if (selectedGenre) {
+        const result = await axios.get(`http://localhost:3000/sortBy?genre=${selectedGenre}`);
+        renderBooks(result.data.bookSorted);
+      }
     });
+  });
+
+    // Fetching all books on click
+  const allBooks = document.querySelector(".allBooks-list-item");
+  allBooks.addEventListener("click", async () => {
+    try {
+      const result = await axios.get(`http://localhost:3000/all`);
+      renderBooks(result.data.collection);
+    } catch (error) {
+      console.log("Error fetching all books:", error);
+    }
+  });
+
+  // Render books
+  const renderBooks = (books) => {
+    const booksSection = document.querySelector(".books-section");
+    booksSection.innerHTML = "";
+    books.forEach((book) => {
+      const ratingHtml = generateStarRating(book.rating);
+      const formatedDate = new Date(book.date).toLocaleDateString('en-US');
+      const bookDiv = document.createElement("div");
+      bookDiv.classList.add("image-container");
+      bookDiv.innerHTML = `
+        <i class="fas fa-heart heart-full-icon hidden image-heart"></i>
+        <i class="far fa-heart heart-icon image-heart" data-id=${book.book_id}></i>
+        <div class="image-section">
+          <a href="book/${book.book_id}" target="_blank">
+            <img src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg" alt="${book.title}" />
+          </a>
+        </div>
+        <div class="book-description">
+          <p class="book-title">${book.title}</p>
+          <p>${book.author}</p>
+          ${ratingHtml}
+          <div class="book-date"> Date read: ${formatedDate}</div>
+        </div>`;
+      booksSection.appendChild(bookDiv);
+    });
+
+    
+
+    
+  };
+      // Add event listener for the heart (favourite) functionality
+      document.querySelectorAll(".heart-icon").forEach((heart) => {
+        heart.addEventListener("click", async () => {
+          try {
+            const result = await axios.put("http://localhost:3000/addToFavourites", { id: heart.dataset.id });
+            console.log(`Updated user with id ${result.data.id}`);
+          } catch (error) {
+            console.log(`Error:`, error);
+          }
+  
+          heart.classList.toggle("far"); // Toggle empty heart
+          heart.classList.toggle("fas"); // Toggle full heart
+        });
+      });
+
 
 });
