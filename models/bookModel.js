@@ -2,6 +2,7 @@ import db from "../config/db.js";
 
 export const getBooks = async () => {
   const result = await db.query("SELECT * FROM books ORDER BY title");
+  
 
   return {rows:result.rows, rowCount:result.rowCount}
 };
@@ -21,21 +22,11 @@ export const getBook = async (id) => {
 export const getFavourites = async () => {
   const result =  await db.query("SELECT * FROM books WHERE favourite=true");
   return result.rows;
+};
+
+export const addNewBook = async () => {
+  await db.query("INSERT into books (author, title, description, rating, category, favourite, date, book_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)")
+
 }
 
-// let books = [];
-// let id = [];
-// app.get("/", async (req, res) => {
-//   const result = await db.query("SELECT * FROM books");
-//   const api = await axios.get(
-//     "https://openlibrary.org/search.json?title=War+and+Peace"
-//   );
-//   console.log(api.data);
 
-//   //   console.log(result1.data)
-//   books = result.rows;
-
-//   console.log(books.book_id);
-
-//   res.render("index.ejs", { books, id });
-// });

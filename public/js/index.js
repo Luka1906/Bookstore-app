@@ -7,7 +7,12 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   links.forEach((link) => {
-    link.classList.toggle("active", link.getAttribute("href") === currentPage || (currentPage.startsWith("/book") && link.classList.contains("home-page")));
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === currentPage ||
+        (currentPage.startsWith("/book") &&
+          link.classList.contains("home-page"))
+    );
   });
 
   // Slider functionality
@@ -39,7 +44,11 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Sorting & Genre toggles
-  const initializeToggle = (arrowUpSelector, arrowDownSelector, contentSelector) => {
+  const initializeToggle = (
+    arrowUpSelector,
+    arrowDownSelector,
+    contentSelector
+  ) => {
     const arrowUp = document.querySelector(arrowUpSelector);
     const arrowDown = document.querySelector(arrowDownSelector);
     const content = document.querySelector(contentSelector);
@@ -61,7 +70,11 @@ window.addEventListener("DOMContentLoaded", () => {
     arrowDown.addEventListener("click", showContent);
   };
 
-  initializeToggle(".collection-arrow-up", ".collection-arrow-down", ".collection-options");
+  initializeToggle(
+    ".collection-arrow-up",
+    ".collection-arrow-down",
+    ".collection-options"
+  );
   initializeToggle(".genre-arrow-up", ".genre-arrow-down", ".genre-options");
 
   const generateStarRating = (rating) => {
@@ -82,8 +95,11 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#sort").addEventListener("change", async (event) => {
     try {
       const selectedValue = event.target.value;
+      console.log(selectedValue)
       if (selectedValue) {
-        const result = await axios.get(`http://localhost:3000/sortBy?option=${selectedValue}`);
+        const result = await axios.get(
+          `http://localhost:3000/sortBy?option=${selectedValue}`
+        );
         renderBooks(result.data.bookSorted);
       }
     } catch (error) {
@@ -95,14 +111,17 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".genres").forEach((genre) => {
     genre.addEventListener("click", async () => {
       const selectedGenre = genre.textContent.toLowerCase();
+      console.log(selectedGenre)
       if (selectedGenre) {
-        const result = await axios.get(`http://localhost:3000/sortBy?genre=${selectedGenre}`);
+        const result = await axios.get(
+          `http://localhost:3000/sortBy?genre=${selectedGenre}`
+        );
         renderBooks(result.data.bookSorted);
       }
     });
   });
 
-    // Fetching all books on click
+  // Fetching all books on click
   const allBooks = document.querySelector(".allBooks-list-item");
   allBooks.addEventListener("click", async () => {
     try {
@@ -119,7 +138,7 @@ window.addEventListener("DOMContentLoaded", () => {
     booksSection.innerHTML = "";
     books.forEach((book) => {
       const ratingHtml = generateStarRating(book.rating);
-      const formatedDate = new Date(book.date).toLocaleDateString('en-US');
+      const formatedDate = new Date(book.date).toLocaleDateString("en-US");
       const bookDiv = document.createElement("div");
       bookDiv.classList.add("image-container");
       bookDiv.innerHTML = `
@@ -139,24 +158,29 @@ window.addEventListener("DOMContentLoaded", () => {
       booksSection.appendChild(bookDiv);
     });
 
-    
-
-    
+    addToFavourites();
   };
-      // Add event listener for the heart (favourite) functionality
-      document.querySelectorAll(".heart-icon").forEach((heart) => {
-        heart.addEventListener("click", async () => {
-          try {
-            const result = await axios.put("http://localhost:3000/addToFavourites", { id: heart.dataset.id });
-            console.log(`Updated user with id ${result.data.id}`);
-          } catch (error) {
-            console.log(`Error:`, error);
-          }
-  
-          heart.classList.toggle("far"); // Toggle empty heart
-          heart.classList.toggle("fas"); // Toggle full heart
-        });
+
+  // Add event listener for the heart (favourite) functionality
+
+  const addToFavourites = () => {
+    document.querySelectorAll(".heart-icon").forEach((heart) => {
+      heart.addEventListener("click", async () => {
+        try {
+          const result = await axios.put(
+            "http://localhost:3000/addToFavourites",
+            { id: heart.dataset.id }
+          );
+          console.log(`Updated user with id ${result.data.id}`);
+        } catch (error) {
+          console.log(`Error:`, error);
+        }
+
+        heart.classList.toggle("far"); // Toggle empty heart
+        heart.classList.toggle("fas"); // Toggle full heart
       });
+    });
+  };
 
-
+  addToFavourites();
 });

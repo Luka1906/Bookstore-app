@@ -10,7 +10,8 @@
                 <p>by</p>
                 <h3 class="author-name"><%= book.author %></h3>
             </div>
-            <p>Date read: <%= book.date.toLocaleDateString('en-US') %></p>
+            <p>Genre: <span class="details-genre" ><%=genres %></span></p>
+            <p>Date read: <span></span> <%= book.date.toLocaleDateString('en-US') %></p>
             <div class="details-rating">
             <p>My rating:</p>
             <%- include('partials/bookRating.ejs', {book}) %>
@@ -25,4 +26,4 @@
     </div>
    
 <% } %>
-<%-include('partials/footer.ejs')%>ƒ
+<%-include('partials/footer.ejs')%>

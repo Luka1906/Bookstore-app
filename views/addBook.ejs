@@ -1,11 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div>We are going to make form here</div>
-  </body>
-</html>
+<%-include('partials/header.ejs')%>
+
+  <form class="add-form" action="/addBook" method="post">
+    <div class="form-wrapper">
+    <h2 class="form-header">Add a new book</h2>
+    <div class="title-section form-section">
+      <label for="form-title">Book title</label>
+      <input type="text" name="title" id="form-title" />
+    </div>
+    <div class="author-section form-section">
+      <label for="form-author">Book author</label>
+      <input type="text" name="author" id="form-author" />
+    </div>
+    <div class="review-section form-section">
+      <label for="form-review">Your book review:</label>
+      <textarea
+        name="description"
+        id="form-review"
+        rows="10"
+        cols="45"
+        maxlength="250"
+        placeholder="Max 250 characters"
+      ></textarea>
+    </div>
+    <div class="rating-date-wrapper">
+    <div class="rating-section form-section">
+      <label for="form-rating">Book rating</label>
+      <input
+        type="number"
+        min="1"
+        max="5"
+        name="rating"
+        id="form-rating"
+        placeholder="Between 1 and 5"
+      />
+    </div>
+    <div class="date-section form-section">
+      <label for="form-date">Date read</label>
+      <input type="date" name="date" id="form-date" />
+    </div>
+  </div>
+    <button class="form-button" type="submit">Add a book</button>
+  </div>
+  </form>
+</div>
+<%-include('partials/footer.ejs')%>

@@ -1,5 +1,5 @@
 
-    <%-include("partials/header.ejs")%>
+<%-include("partials/header.ejs")%>
     <% if (locals.favourites) {%>
     <div class="books-section">
         <% favourites.forEach((favourite) => { %>
@@ -13,8 +13,7 @@
                     <p><%=favourite.author%></p>
                 </div>
             </div>
-               
-           
+                 
        <% }); %>
         </div>
         <% } %>
