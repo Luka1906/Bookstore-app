@@ -7,15 +7,17 @@ const router = express.Router();
 // GET routes
 
 router.get("/", bookController.getAllBooks);
-router.get("/addBook", bookController.addNewBook);
+router.get("/addBook", bookController.newBook);
 router.get("/favourites",bookController.getCollection);
 router.get("/book/:id", bookController.getBook);
 router.get("/sortBy", sortController.getSortedBooks);
 router.get("/all", sortController.getAllCollection );
-router.get("/")
 
-// PUT routess
+// PUT routes
 router.put("/addToFavourites", updateController.updateFavouriteBooks)
+
+// POST routess
+router.post("/addBook-form", bookController.addNewBook)
 
 
 

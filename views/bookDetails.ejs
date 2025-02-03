@@ -1,6 +1,6 @@
 
 <%-include("partials/header.ejs")%>
-<% if(locals.book) { %>
+
     <div class="book-details">
             <img class="details-img" src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-L.jpg"/>
            
@@ -10,7 +10,7 @@
                 <p>by</p>
                 <h3 class="author-name"><%= book.author %></h3>
             </div>
-            <p>Genre: <span class="details-genre" ><%=genres %></span></p>
+            <p>Genre: <span class="details-genre" ><%= genres %></span></p>
             <p>Date read: <span></span> <%= book.date.toLocaleDateString('en-US') %></p>
             <div class="details-rating">
             <p>My rating:</p>
@@ -25,5 +25,5 @@
     
     </div>
    
-<% } %>
+
 <%-include('partials/footer.ejs')%>

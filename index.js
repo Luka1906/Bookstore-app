@@ -8,6 +8,7 @@ const port = 3000;
 // Middlewares
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 // Routes
@@ -19,6 +20,7 @@ app.use("/book/:id", bookRoutes );
 // app.use("/sortBy", bookRoutes)
 app.use("/all", bookRoutes)
 app.use("/addToFavourites", bookRoutes)
+app.use("/addBook-form",bookRoutes)
 
 
 // Server set up

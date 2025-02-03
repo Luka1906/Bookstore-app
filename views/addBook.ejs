@@ -1,30 +1,30 @@
 <%-include('partials/header.ejs')%>
 
-  <form class="add-form" action="/addBook" method="post">
+  <form class="add-form" action="/addBook-form" method="post">
     <div class="form-wrapper">
     <h2 class="form-header">Add a new book</h2>
     <div class="title-section form-section">
-      <label for="form-title">Book title</label>
+      <label for="form-title">Book title <span class="form-star">*</span></label>
       <input type="text" name="title" id="form-title" />
     </div>
-    <div class="author-section form-section">
-      <label for="form-author">Book author</label>
-      <input type="text" name="author" id="form-author" />
+    <div class="genre-section form-section">
+      <label for="form-genre">Book genre <span class="form-star">*</span></label>
+      <input type="text" name="genre" id="form-genre" />
     </div>
     <div class="review-section form-section">
-      <label for="form-review">Your book review:</label>
+      <label for="form-review">Your book review: <span class="form-star">*</span></label>
       <textarea
         name="description"
         id="form-review"
         rows="10"
         cols="45"
-        maxlength="250"
-        placeholder="Max 250 characters"
+        maxlength="1000"
+        placeholder="Max 1000 characters"
       ></textarea>
     </div>
     <div class="rating-date-wrapper">
     <div class="rating-section form-section">
-      <label for="form-rating">Book rating</label>
+      <label for="form-rating">Book rating <span class="form-star">*</span></label>
       <input
         type="number"
         min="1"
@@ -35,9 +35,10 @@
       />
     </div>
     <div class="date-section form-section">
-      <label for="form-date">Date read</label>
+      <label for="form-date">Date read <span class="form-star">*</span></label>
       <input type="date" name="date" id="form-date" />
     </div>
+    
   </div>
     <button class="form-button" type="submit">Add a book</button>
   </div>

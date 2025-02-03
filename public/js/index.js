@@ -164,23 +164,28 @@ window.addEventListener("DOMContentLoaded", () => {
   // Add event listener for the heart (favourite) functionality
 
   const addToFavourites = () => {
-    document.querySelectorAll(".heart-icon").forEach((heart) => {
+    const fullHearts = document.querySelectorAll(".heart-full-icon")
+    document.querySelectorAll(".heart-icon").forEach((heart,i) => {
       heart.addEventListener("click", async () => {
         try {
           const result = await axios.put(
             "http://localhost:3000/addToFavourites",
             { id: heart.dataset.id }
           );
-          console.log(`Updated user with id ${result.data.id}`);
+          
+          console.log(result.data.favourite)
         } catch (error) {
           console.log(`Error:`, error);
         }
 
-        heart.classList.toggle("far"); // Toggle empty heart
-        heart.classList.toggle("fas"); // Toggle full heart
+        // heart.classList.toggle("far"); // Toggle empty heart
+        // heart.classList.toggle("fas"); // Toggle full heart
       });
     });
   };
 
   addToFavourites();
+  
+
+  
 });
