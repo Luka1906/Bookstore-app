@@ -21,3 +21,17 @@ export const getAllCollection = async (req,res) => {
       res.status(500).send("Error fetching books");
     }
   }
+
+  export const getSearchedBook  = async (req,res) => {
+    const query = req.query.q;
+    console.log(query)
+    if (!query) res.json([]);
+
+    try {
+      const books= await Book.searchedBook(query);
+    
+      res.json(books)
+    } catch (error) {
+      res.status(500).json({error:"Error fetching books"})
+    }
+  }

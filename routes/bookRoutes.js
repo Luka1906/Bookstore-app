@@ -11,6 +11,7 @@ router.get("/addBook", bookController.newBook);
 router.get("/favourites",bookController.getCollection);
 router.get("/book/:id", bookController.getBook);
 router.get("/sortBy", sortController.getSortedBooks);
+router.get("/search", sortController.getSearchedBook);
 router.get("/all", sortController.getAllCollection );
 
 // PUT routes

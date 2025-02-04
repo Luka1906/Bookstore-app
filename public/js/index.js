@@ -15,6 +15,71 @@ window.addEventListener("DOMContentLoaded", () => {
     );
   });
 
+  // Search Functionalities
+
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const searchInput = document.querySelector(".search-input"); // Corrected the typo here
+  const dropdown = document.querySelector(".search-dropdown");
+
+  const fetchBooks = async (query) => {
+    if (!query) {
+      dropdown.style.display = "none";
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/search?q=${query}`
+      );
+      displayDropdown(response.data);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+
+  const displayDropdown = (books) => {
+    dropdown.innerHTML = "";
+    if (books.length === 0) {
+      dropdown.style.display = "none";
+      return;
+    }
+    books.forEach((book) => {
+      const div = document.createElement("div");
+      div.classList.add("dropdown-item");
+      console.log(div);
+      div.innerHTML = `<img class="dropdown-image" src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg" alt="${book.title}"/>
+        <div class="dropdown-text">
+        <p class="dropdown-title">${book.title}</p>
+        <p>By ${book.author}</p>
+        </div>
+        `;
+      div.addEventListener("click", () => {
+        searchInput.value = book.title; // Corrected the typo here as wellƒ
+        dropdown.style.display = "none";
+      });
+      dropdown.appendChild(div);
+    });
+    dropdown.style.display = "block";
+  };
+
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && e.target !== searchInput) {
+      dropdown.innerHTML = ""; // Clear dropdown
+      dropdown.style.display = "none"; // Optionally hide dropdown
+    }
+  });
+
+  // Apply debounce to the input event
+  const debouncedSearch = debounce((e) => fetchBooks(e.target.value), 500);
+  searchInput.addEventListener("input", debouncedSearch); // Corrected the typo here
+
   // Slider functionality
   let currentIndex = 0;
   const slides = document.querySelectorAll(".slider-item");
@@ -32,9 +97,12 @@ window.addEventListener("DOMContentLoaded", () => {
     slider.style.transform = `translateX(-${currentIndex * 100}%)`;
   };
 
-  nextButton.addEventListener("click", () => showSlide(++currentIndex));
-  prevButton.addEventListener("click", () => showSlide(--currentIndex));
-  showSlide(currentIndex);
+  if (window.location.pathname === "/") {
+    // Only initialize the slider on the homepage
+    nextButton.addEventListener("click", () => showSlide(++currentIndex));
+    prevButton.addEventListener("click", () => showSlide(--currentIndex));
+    showSlide(currentIndex); // Initial call to show the first slide
+  }
 
   // Book review manipulation
   document.querySelectorAll(".book-review").forEach((review) => {
@@ -42,6 +110,35 @@ window.addEventListener("DOMContentLoaded", () => {
       review.textContent = review.textContent.slice(0, 250) + "...";
     }
   });
+
+  const description = document.querySelector(".details-description");
+
+  if (description && description.textContent.length > 500) {
+    const originalText = description.textContent; // Save the full text
+    description.textContent = originalText.slice(0, 500) + "... "; // Trim the text to 500 characters
+  
+    const readMoreBtn = document.createElement("button");
+    readMoreBtn.classList.add("read-more");
+    readMoreBtn.textContent = "Read More";
+    description.appendChild(readMoreBtn);
+  
+    // Add event listener to toggle the text when the button is clicked
+    readMoreBtn.addEventListener("click", () => {
+      if (description.textContent.length > 500) {
+        // Show the full text
+        description.textContent = originalText;
+        readMoreBtn.textContent = "Read Less"; // Change button text to "Read Less"
+      } else {
+        // Hide the full text (back to the first 500 characters)
+        description.textContent = originalText.slice(0, 500) + "... ";
+        readMoreBtn.textContent = "Read More"; // Change button text back to "Read More"
+      }
+  
+      // Re-add the button after text update (to preserve the button in the DOM)
+      description.appendChild(readMoreBtn);
+    });
+  }
+  
 
   // Sorting & Genre toggles
   const initializeToggle = (
@@ -95,7 +192,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#sort").addEventListener("change", async (event) => {
     try {
       const selectedValue = event.target.value;
-      console.log(selectedValue)
+      console.log(selectedValue);
       if (selectedValue) {
         const result = await axios.get(
           `http://localhost:3000/sortBy?option=${selectedValue}`
@@ -111,7 +208,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".genres").forEach((genre) => {
     genre.addEventListener("click", async () => {
       const selectedGenre = genre.textContent.toLowerCase();
-      console.log(selectedGenre)
+      console.log(selectedGenre);
       if (selectedGenre) {
         const result = await axios.get(
           `http://localhost:3000/sortBy?genre=${selectedGenre}`
@@ -164,16 +261,16 @@ window.addEventListener("DOMContentLoaded", () => {
   // Add event listener for the heart (favourite) functionality
 
   const addToFavourites = () => {
-    const fullHearts = document.querySelectorAll(".heart-full-icon")
-    document.querySelectorAll(".heart-icon").forEach((heart,i) => {
+    const fullHearts = document.querySelectorAll(".heart-full-icon");
+    document.querySelectorAll(".heart-icon").forEach((heart, i) => {
       heart.addEventListener("click", async () => {
         try {
           const result = await axios.put(
             "http://localhost:3000/addToFavourites",
             { id: heart.dataset.id }
           );
-          
-          console.log(result.data.favourite)
+
+          console.log(result.data.favourite);
         } catch (error) {
           console.log(`Error:`, error);
         }
@@ -185,7 +282,4 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   addToFavourites();
-  
-
-  
 });

@@ -17,7 +17,8 @@ app.use("/", bookRoutes);
 app.use("/addBook", bookRoutes);
 app.use("/favourites", bookRoutes);
 app.use("/book/:id", bookRoutes );
-// app.use("/sortBy", bookRoutes)
+app.use("/sortBy", bookRoutes)
+app.use("/search", bookRoutes);
 app.use("/all", bookRoutes)
 app.use("/addToFavourites", bookRoutes)
 app.use("/addBook-form",bookRoutes)

@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/styles/main.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    
   </head>
   <body>
-  <nav>
-    <h1>My bookstore</h1>
-    <form action="/search" method="post">
-      <input
-        class="search-input"
-        type="text"
-        name="search"
-        placeholder="Search for a book"
-      />
-      <button class="search-icon"><i class="fas fa-search"></i></button>
-    </form>
-    <a class="signIn-link" href="/sign-in">Sign in</a>
-  </nav>
+    <nav>
+      <h1>My bookstore</h1>
+      <div class="search-wrapper">
+          <input
+            class="search-input"
+            type="text"
+            name="search"
+            placeholder="Search for books by title..."
+          />
+          <div class="search-dropdown"></div>
+        </div>
+
+      <a class="signIn-link" href="/sign-in">Sign in</a>
+    </nav>
     <ul class="header-section">
       <li>
         <a href="/" class="home-page">Home <i class="fas fa-house"></i> </a>
@@ -39,4 +39,5 @@
         </a>
       </li>
     </ul>
-
+  </body>
+</html>

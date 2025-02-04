@@ -34,3 +34,10 @@ export const getCollection = async () => {
     const result = await db.query("SELECT * FROM books ORDER BY title ")
     return result.rows;
 }
+
+export const searchedBook = async (query) => {
+  console.log(query)
+  const result = await db.query("SELECT title,author,book_id FROM books WHERE title ILIKE $1 LIMIT 5",[`%${query}%`]);
+  console.log(result.rows)
+  return result.rows;
+}

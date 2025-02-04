@@ -11,7 +11,7 @@ export const getAllBooks = async (req, res) => {
     const bookCount = books.rowCount;
   
  
-   // Modyfing categories before sendin on the front
+   // Modyfing categories before sending them on the front
 
     const categories = bookData.map((book) => book.category);
     const allCategories = categories.flatMap((category) =>
