@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
     };
   };
 
-  const searchInput = document.querySelector(".search-input"); // Corrected the typo here
+  const searchInput = document.querySelector(".search-input"); 
   const dropdown = document.querySelector(".search-dropdown");
 
   const fetchBooks = async (query) => {
@@ -53,7 +53,6 @@ window.addEventListener("DOMContentLoaded", () => {
     books.forEach((book) => {
       const div = document.createElement("div");
       div.classList.add("dropdown-item");
-      console.log(div);
       div.innerHTML = `<img class="dropdown-image" src="https://covers.openlibrary.org/b/id/${book.book_id}-M.jpg" alt="${book.title}"/>
         <div class="dropdown-text">
         <p class="dropdown-title">${book.title}</p>
@@ -61,7 +60,7 @@ window.addEventListener("DOMContentLoaded", () => {
         </div>
         `;
       div.addEventListener("click", () => {
-        searchInput.value = book.title; // Corrected the typo here as wellƒ
+        searchInput.value = book.title; 
         dropdown.style.display = "none";
       });
       dropdown.appendChild(div);
@@ -72,13 +71,13 @@ window.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && e.target !== searchInput) {
       dropdown.innerHTML = ""; // Clear dropdown
-      dropdown.style.display = "none"; // Optionally hide dropdown
+      dropdown.style.display = "none"; 
     }
   });
 
   // Apply debounce to the input event
   const debouncedSearch = debounce((e) => fetchBooks(e.target.value), 500);
-  searchInput.addEventListener("input", debouncedSearch); // Corrected the typo here
+  searchInput.addEventListener("input", debouncedSearch);
 
   // Slider functionality
   let currentIndex = 0;
@@ -115,29 +114,56 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (description && description.textContent.length > 500) {
     const originalText = description.textContent; // Save the full text
-    description.textContent = originalText.slice(0, 500) + "... "; // Trim the text to 500 characters
+    const partialText = originalText.slice(0, 500) + "... "; // Trim the text to 500 characters
+    
+    // Set initial truncated text
+    description.textContent = partialText;
   
+    // Create buttons
     const readMoreBtn = document.createElement("button");
-    readMoreBtn.classList.add("read-more");
+    const readLessBtn = document.createElement("button");
+  
+    // Add classes and text
+    readMoreBtn.classList.add("description-buttons");
     readMoreBtn.textContent = "Read More";
+  
+    readLessBtn.classList.add("description-buttons", "hidden");
+    readLessBtn.textContent = "Read Less";
+  
+    // Append the "Read More" button
     description.appendChild(readMoreBtn);
   
-    // Add event listener to toggle the text when the button is clicked
+    // Add event listener for "Read More" button
     readMoreBtn.addEventListener("click", () => {
-      if (description.textContent.length > 500) {
-        // Show the full text
-        description.textContent = originalText;
-        readMoreBtn.textContent = "Read Less"; // Change button text to "Read Less"
-      } else {
-        // Hide the full text (back to the first 500 characters)
-        description.textContent = originalText.slice(0, 500) + "... ";
-        readMoreBtn.textContent = "Read More"; // Change button text back to "Read More"
+      // Show the full text
+      description.textContent = originalText;
+      
+      // Hide "Read More" button and show "Read Less" button
+      readMoreBtn.classList.add("hidden");
+      readLessBtn.classList.remove("hidden");
+      
+      // Append the "Read Less" button (only once)
+      if (!description.contains(readLessBtn)) {
+        description.appendChild(readLessBtn);
       }
+    });
   
-      // Re-add the button after text update (to preserve the button in the DOM)
-      description.appendChild(readMoreBtn);
+    // Add event listener for "Read Less" button
+    readLessBtn.addEventListener("click", () => {
+      // Show truncated text
+      description.textContent = partialText;
+      
+      // Hide "Read Less" button and show "Read More" button
+      readLessBtn.classList.add("hidden");
+      readMoreBtn.classList.remove("hidden");
+      
+      // Append the "Read More" button (only once)
+      if (!description.contains(readMoreBtn)) {
+        description.appendChild(readMoreBtn);
+      }
     });
   }
+  
   
 
   // Sorting & Genre toggles
@@ -262,24 +288,69 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const addToFavourites = () => {
     const fullHearts = document.querySelectorAll(".heart-full-icon");
-    document.querySelectorAll(".heart-icon").forEach((heart, i) => {
+    const hearts = document.querySelectorAll(".heart-icon");
+  
+    hearts.forEach((heart, i) => {
+      const heartId = heart.dataset.id;
+      
+      // Check if the heart was previously marked as "favourite"
+      const favouriteStatus = localStorage.getItem(`heart-${heartId}`);
+  
+      // If it's favourite, show full heart on page load
+      if (favouriteStatus === 'true') {
+        fullHearts[i].classList.remove("hidden");
+        heart.classList.add("hidden");
+      }
+  
+      // Listen for clicks on the heart icon
       heart.addEventListener("click", async () => {
         try {
-          const result = await axios.put(
-            "http://localhost:3000/addToFavourites",
-            { id: heart.dataset.id }
-          );
-
-          console.log(result.data.favourite);
+          // Add to favourites
+          const result = await axios.put("http://localhost:3000/addToFavourites", { 
+            id: heartId, 
+            addToFavorites: true 
+          });
+  
+          if (result.data.favourite) {
+            // Show full heart and hide empty heart
+            fullHearts[i].classList.remove("hidden");
+            heart.classList.add("hidden");
+  
+            // Save to LocalStorage
+            localStorage.setItem(`heart-${heartId}`, 'true');
+          }
+  
         } catch (error) {
           console.log(`Error:`, error);
         }
-
-        // heart.classList.toggle("far"); // Toggle empty heart
-        // heart.classList.toggle("fas"); // Toggle full heart
+      });
+  
+      // Listen for clicks on the full heart icon
+      fullHearts[i].addEventListener("click", async () => {
+        try {
+          // Remove from favourites
+          const result = await axios.put("http://localhost:3000/addToFavourites", { 
+            id: heartId, 
+            addToFavorites: false 
+          });
+  
+          if (!result.data.favourite) {
+            // Show empty heart and hide full heart
+            fullHearts[i].classList.add("hidden");
+            heart.classList.remove("hidden");
+  
+            // Remove from LocalStorage
+            localStorage.setItem(`heart-${heartId}`, 'false');
+          }
+  
+        } catch (error) {
+          console.log(`Error:`, error);
+        }
       });
     });
   };
+  
+
 
   addToFavourites();
 });

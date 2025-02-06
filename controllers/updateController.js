@@ -1,8 +1,9 @@
 import * as Book from "../models/updateModel.js";
 
 export const updateFavouriteBooks = async (req,res) => {
-    const {id} = req.body;
+    const {id,addToFavorites} = req.body;
     console.log(id);
-    const updatedBook = await Book.updateFavouriteBook(id);
-    res.json({updatedBook, favourite:true})
+    console.log(addToFavorites)
+    const updatedBook = await Book.updateFavouriteBook(id,addToFavorites);
+    res.json({favourite:addToFavorites})
 }

@@ -383,7 +383,7 @@ select {
   font-weight: 700;
 }
 
-.read-more {
+.description-buttons{
   border:none;
   cursor: pointer;
   background: #fff4e0;
