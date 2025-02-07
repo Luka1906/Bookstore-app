@@ -15,7 +15,8 @@ router.get("/search", sortController.getSearchedBook);
 router.get("/all", sortController.getAllCollection );
 
 // PUT routes
-router.put("/addToFavourites", updateController.updateFavouriteBooks)
+router.put("/addToFavourites", updateController.updateFavouriteBooks);
+router.put("/editBook/:id", updateController.editBook)
 
 // POST routess
 router.post("/addBook-form", bookController.addNewBook)

@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".header-section a");
   const currentPage = window.location.pathname.split(",").pop();
 
@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
     };
   };
 
-  const searchInput = document.querySelector(".search-input"); 
+  const searchInput = document.querySelector(".search-input");
   const dropdown = document.querySelector(".search-dropdown");
 
   const fetchBooks = async (query) => {
@@ -60,7 +60,7 @@ window.addEventListener("DOMContentLoaded", () => {
         </div>
         `;
       div.addEventListener("click", () => {
-        searchInput.value = book.title; 
+        searchInput.value = book.title;
         dropdown.style.display = "none";
       });
       dropdown.appendChild(div);
@@ -71,7 +71,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && e.target !== searchInput) {
       dropdown.innerHTML = ""; // Clear dropdown
-      dropdown.style.display = "none"; 
+      dropdown.style.display = "none";
     }
   });
 
@@ -110,61 +110,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const description = document.querySelector(".details-description");
-
-  if (description && description.textContent.length > 500) {
-    const originalText = description.textContent; // Save the full text
-    const partialText = originalText.slice(0, 500) + "... "; // Trim the text to 500 characters
-    
-    // Set initial truncated text
-    description.textContent = partialText;
-  
-    // Create buttons
-    const readMoreBtn = document.createElement("button");
-    const readLessBtn = document.createElement("button");
-  
-    // Add classes and text
-    readMoreBtn.classList.add("description-buttons");
-    readMoreBtn.textContent = "Read More";
-  
-    readLessBtn.classList.add("description-buttons", "hidden");
-    readLessBtn.textContent = "Read Less";
-  
-    // Append the "Read More" button
-    description.appendChild(readMoreBtn);
-  
-    // Add event listener for "Read More" button
-    readMoreBtn.addEventListener("click", () => {
-      // Show the full text
-      description.textContent = originalText;
-      
-      // Hide "Read More" button and show "Read Less" button
-      readMoreBtn.classList.add("hidden");
-      readLessBtn.classList.remove("hidden");
-      
-      // Append the "Read Less" button (only once)
-      if (!description.contains(readLessBtn)) {
-        description.appendChild(readLessBtn);
-      }
-    });
-  
-    // Add event listener for "Read Less" button
-    readLessBtn.addEventListener("click", () => {
-      // Show truncated text
-      description.textContent = partialText;
-      
-      // Hide "Read Less" button and show "Read More" button
-      readLessBtn.classList.add("hidden");
-      readMoreBtn.classList.remove("hidden");
-      
-      // Append the "Read More" button (only once)
-      if (!description.contains(readMoreBtn)) {
-        description.appendChild(readMoreBtn);
-      }
-    });
-  }
-  
-  
 
   // Sorting & Genre toggles
   const initializeToggle = (
@@ -175,7 +120,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const arrowUp = document.querySelector(arrowUpSelector);
     const arrowDown = document.querySelector(arrowDownSelector);
     const content = document.querySelector(contentSelector);
-    const originalContent = content.innerHTML;
+    const originalContent = content ? content.innerHTML : "";
 
     const hideContent = () => {
       arrowUp.classList.add("hidden");
@@ -186,11 +131,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const showContent = () => {
       arrowDown.classList.add("hidden");
       arrowUp.classList.remove("hidden");
-      content.innerHTML = originalContent;
+      if (content) {
+        content.innerHTML = originalContent;
+      }
     };
 
-    arrowUp.addEventListener("click", hideContent);
-    arrowDown.addEventListener("click", showContent);
+    if (arrowUp) arrowUp.addEventListener("click", hideContent);
+    if (arrowDown) arrowDown.addEventListener("click", showContent);
   };
 
   initializeToggle(
@@ -215,45 +162,53 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   // Sorting books by selected option
-  document.querySelector("#sort").addEventListener("change", async (event) => {
-    try {
-      const selectedValue = event.target.value;
-      console.log(selectedValue);
-      if (selectedValue) {
-        const result = await axios.get(
-          `http://localhost:3000/sortBy?option=${selectedValue}`
-        );
-        renderBooks(result.data.bookSorted);
-      }
-    } catch (error) {
-      console.log("Error fetching sorted data:", error);
-    }
-  });
-
-  // Genre-based Sorting
-  document.querySelectorAll(".genres").forEach((genre) => {
-    genre.addEventListener("click", async () => {
-      const selectedGenre = genre.textContent.toLowerCase();
-      console.log(selectedGenre);
-      if (selectedGenre) {
-        const result = await axios.get(
-          `http://localhost:3000/sortBy?genre=${selectedGenre}`
-        );
-        renderBooks(result.data.bookSorted);
+  const sortElement = document.querySelector("#sort");
+  if (sortElement) {
+    sortElement.addEventListener("change", async (event) => {
+      try {
+        const selectedValue = event.target.value;
+        console.log(selectedValue);
+        if (selectedValue) {
+          const result = await axios.get(
+            `http://localhost:3000/sortBy?option=${selectedValue}`
+          );
+          renderBooks(result.data.bookSorted);
+        }
+      } catch (error) {
+        console.log("Error fetching sorted data:", error);
       }
     });
-  });
+  }
+
+  // Genre-based Sorting
+  const genres = document.querySelectorAll(".genres");
+  if (genres) {
+    genres.forEach((genre) => {
+      genre.addEventListener("click", async () => {
+        const selectedGenre = genre.textContent.toLowerCase();
+        console.log(selectedGenre);
+        if (selectedGenre) {
+          const result = await axios.get(
+            `http://localhost:3000/sortBy?genre=${selectedGenre}`
+          );
+          renderBooks(result.data.bookSorted);
+        }
+      });
+    });
+  }
 
   // Fetching all books on click
   const allBooks = document.querySelector(".allBooks-list-item");
-  allBooks.addEventListener("click", async () => {
-    try {
-      const result = await axios.get(`http://localhost:3000/all`);
-      renderBooks(result.data.collection);
-    } catch (error) {
-      console.log("Error fetching all books:", error);
-    }
-  });
+  if (allBooks) {
+    allBooks.addEventListener("click", async () => {
+      try {
+        const result = await axios.get(`http://localhost:3000/all`);
+        renderBooks(result.data.collection);
+      } catch (error) {
+        console.log("Error fetching all books:", error);
+      }
+    });
+  }
 
   // Render books
   const renderBooks = (books) => {
@@ -289,68 +244,156 @@ window.addEventListener("DOMContentLoaded", () => {
   const addToFavourites = () => {
     const fullHearts = document.querySelectorAll(".heart-full-icon");
     const hearts = document.querySelectorAll(".heart-icon");
-  
+
     hearts.forEach((heart, i) => {
       const heartId = heart.dataset.id;
-      
+
       // Check if the heart was previously marked as "favourite"
       const favouriteStatus = localStorage.getItem(`heart-${heartId}`);
-  
+
       // If it's favourite, show full heart on page load
-      if (favouriteStatus === 'true') {
+      if (favouriteStatus === "true") {
         fullHearts[i].classList.remove("hidden");
         heart.classList.add("hidden");
       }
-  
+
       // Listen for clicks on the heart icon
       heart.addEventListener("click", async () => {
         try {
           // Add to favourites
-          const result = await axios.put("http://localhost:3000/addToFavourites", { 
-            id: heartId, 
-            addToFavorites: true 
-          });
-  
+          const result = await axios.put(
+            "http://localhost:3000/addToFavourites",
+            {
+              id: heartId,
+              addToFavorites: true,
+            }
+          );
+
           if (result.data.favourite) {
             // Show full heart and hide empty heart
             fullHearts[i].classList.remove("hidden");
             heart.classList.add("hidden");
-  
+
             // Save to LocalStorage
-            localStorage.setItem(`heart-${heartId}`, 'true');
+            localStorage.setItem(`heart-${heartId}`, "true");
           }
-  
         } catch (error) {
           console.log(`Error:`, error);
         }
       });
-  
+
       // Listen for clicks on the full heart icon
       fullHearts[i].addEventListener("click", async () => {
         try {
           // Remove from favourites
-          const result = await axios.put("http://localhost:3000/addToFavourites", { 
-            id: heartId, 
-            addToFavorites: false 
-          });
-  
+          const result = await axios.put(
+            "http://localhost:3000/addToFavourites",
+            {
+              id: heartId,
+              addToFavorites: false,
+            }
+          );
+
           if (!result.data.favourite) {
             // Show empty heart and hide full heart
             fullHearts[i].classList.add("hidden");
             heart.classList.remove("hidden");
-  
+
             // Remove from LocalStorage
-            localStorage.setItem(`heart-${heartId}`, 'false');
+            localStorage.setItem(`heart-${heartId}`, "false");
           }
-  
         } catch (error) {
           console.log(`Error:`, error);
         }
       });
     });
   };
-  
 
+  // BookDetailsPage
+
+  const setupReadMoreFeature = () => {
+    const description = document.querySelector(".details-description");
+  
+    if (description && description.textContent.length > 500) {
+      const originalText = description.textContent; // Save the full text
+      const partialText = originalText.slice(0, 500) + "... "; // Trimmed text
+  
+      // Set initial truncated text
+      description.textContent = partialText;
+  
+      // Check if buttons already exist to avoid duplicates
+      let readMoreBtn = description.querySelector(".read-more-btn");
+      let readLessBtn = description.querySelector(".read-less-btn");
+  
+      if (!readMoreBtn) {
+        // Create "Read More" button
+        readMoreBtn = document.createElement("button");
+        readMoreBtn.classList.add("description-buttons", "read-more-btn");
+        readMoreBtn.textContent = "Read More";
+        description.appendChild(readMoreBtn);
+      }
+  
+      if (!readLessBtn) {
+        // Create "Read Less" button
+        readLessBtn = document.createElement("button");
+        readLessBtn.classList.add("description-buttons", "read-less-btn", "hidden");
+        readLessBtn.textContent = "Read Less";
+        description.appendChild(readLessBtn);
+      }
+  
+      // "Read More" button click event
+      readMoreBtn.addEventListener("click", () => {
+        description.textContent = originalText;
+        readMoreBtn.classList.add("hidden");
+        readLessBtn.classList.remove("hidden");
+        description.appendChild(readLessBtn);
+      });
+  
+      // "Read Less" button click event
+      readLessBtn.addEventListener("click", () => {
+        description.textContent = partialText;
+        readLessBtn.classList.add("hidden");
+        readMoreBtn.classList.remove("hidden");
+        description.appendChild(readMoreBtn);
+      });
+    }
+  };
+
+  setupReadMoreFeature();
+
+  // Editing and Deleting book functionalities
+  const editBtn = document.querySelector(".edit-btn");
+  const saveBtn = document.querySelector(".save-btn");
+  const editInput = document.querySelector(".edit-input");
+  const bookDescription = document.querySelector(".details-description");
+
+  editBtn.addEventListener("click", () => {
+    bookDescription.classList.add("hidden");
+    editInput.classList.remove("hidden");
+    editBtn.classList.add("hidden");
+    saveBtn.classList.remove("hidden");
+  });
+
+  saveBtn.addEventListener("click", async () => {
+    const inputValue = editInput.value.trim();
+    const bookId = saveBtn.dataset.id;
+    try {
+      const result = await axios.put(`http://localhost:3000/editBook/${bookId}`, {
+        newDescription: inputValue,
+      });
+      if (result.data.editedDescription) {
+        bookDescription.textContent = result.data.editedDescription;
+        bookDescription.classList.remove("hidden");
+        editInput.classList.add("hidden");
+        editBtn.classList.remove("hidden");
+        saveBtn.classList.add("hidden");
+        setupReadMoreFeature()
+      }
+    } catch (error) {
+      console.error("Error updating book:", error);
+    }
+  
+  });
 
   addToFavourites();
 });

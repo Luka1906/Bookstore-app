@@ -395,13 +395,15 @@ select {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+ 
 }
 .buttons button {
   width: 11rem;
   padding: 0.4rem 0;
   font-size: 1rem;
+  cursor: pointer;
 }
-.delete {
+.delete-btn {
   background-color: #d85c00;
   border: none;
   border-radius: 0.3rem;
@@ -409,12 +411,19 @@ select {
   font-weight: 700;
 }
 
-.edit {
+.edit-btn {
   border: none;
   border-radius: 0.3rem;
   background-color: #999999;
   color: #f8f8f8;
   font-weight: 700;
+}
+.save-btn {
+  background-color: #28a745 ;
+  color: #f8f8f8;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.3rem;
 }
 
 /* Rating (stars) */
@@ -486,6 +495,7 @@ footer {
   margin-top: 0.3rem;
   border: 1px solid #d3d3d3;
   background-color: #fefefe;
+  
 }
 .add-form input:focus,
 .add-form textarea:focus {
@@ -523,8 +533,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-.pagination {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+/* Edit book  */
+
+.edit-input {
+  line-height: 1.7rem;
+  width: 45rem;
+  padding:0.5rem 0.8rem;
+  font-size: 1rem;
+  height: 20rem;
+  resize: vertical;
+  overflow: auto;
+  text-align: justify;
+font-family: "Lato", "sans-serif";
+
 }

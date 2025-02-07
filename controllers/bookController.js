@@ -9,35 +9,37 @@ export const getAllBooks = async (req, res) => {
     ]);
     const bookData = books.rows;
     const bookCount = books.rowCount;
-  
- 
-   // Modyfing categories before sending them on the front
 
     const categories = bookData.map((book) => book.category);
+    console.log(categories);
     const allCategories = categories.flatMap((category) =>
       category.split(",").map((g) => g.trim())
     );
+    console.log(allCategories);
+    const uniqueCategories = [
+      ...new Set(
+        allCategories.map((genre) => genre.toLowerCase()) // Convert all to lowercase before uniqueness check
+      )
+    ].map((genre) => {
+      // Re-capitalize the first letter properly after uniqueness check
+      return genre
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    });
 
-    const uniqueCategories = [...new Set(allCategories)].map(
-      (genres) =>
-        genres
-          .split(" ") // Split each sentence into words
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-          .join(" ") // Join the words back into a sentence
-    );
-
+    // console.log(uniqueCategories);
 
     res.render("index.ejs", {
       books: bookData,
       bookCount,
       carouselBooks,
-      genres: uniqueCategories
+      genres: uniqueCategories,
     });
   } catch (error) {
     res.status(500).send("Error fetching books");
   }
 };
-
 
 export const getBook = async (req, res) => {
   try {
@@ -45,21 +47,22 @@ export const getBook = async (req, res) => {
     const bookArray = await Book.getBook(id);
     const book = bookArray ? bookArray[0] : "No data";
 
-  
-const categories = bookArray.map((book) => book.category);
+    const categories = bookArray.map((book) => book.category);
     const allCategories = categories.flatMap((category) =>
       category.split(",").map((g) => g.trim())
     );
 
-    const uniqueCategories = [...new Set(allCategories)].map(
-      (genres) =>
-        genres
-          .split(" ") // Split each sentence into words
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-          .join(" ") // Join the words back into a sentence
-    ).join(", ");
+    const uniqueCategories = [...new Set(allCategories)]
+      .map(
+        (genres) =>
+          genres
+            .split(" ") // Split each sentence into words
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+            .join(" ") // Join the words back into a sentence
+      )
+      .join(", ");
 
-    res.render("bookDetails.ejs", { book, genres:uniqueCategories });
+    res.render("bookDetails.ejs", { book, genres: uniqueCategories });
   } catch (error) {
     res.status(500).send("Error fetching book");
   }
@@ -68,30 +71,35 @@ const categories = bookArray.map((book) => book.category);
 export const getCollection = async (req, res) => {
   try {
     const favourites = await Book.getFavourites();
-    res.render("favourites.ejs", {favourites});
-    
+    res.render("favourites.ejs", { favourites });
   } catch (error) {
-    res.status(500).send("Error fetching favourite books")
+    res.status(500).send("Error fetching favourite books");
   }
-
-
 };
 
 export const newBook = async (req, res) => {
   res.render("addBook.ejs");
 };
 
-export const addNewBook = async (req,res) => {
-  const {title} = req.body;
-  const {genre} = req.body;
-  const {description} = req.body;
-  const {rating} = req.body;
-  const {date} = req.body;
-  const bookData = await axios.get(`https://openlibrary.org/search.json?q=${title}&limit=1`);
+export const addNewBook = async (req, res) => {
+  const { title } = req.body;
+  const { genre } = req.body;
+  const { description } = req.body;
+  const { rating } = req.body;
+  const { date } = req.body;
+  const bookData = await axios.get(
+    `https://openlibrary.org/search.json?q=${title}&limit=1`
+  );
   const book_id = bookData.data.docs[0].cover_i;
-  const author = bookData.data.docs[0].author_name[0]
-  await Book.addNewBook(author,title,description,rating,genre,date, book_id);
-  res.redirect("/")
-
-}
-
+  const author = bookData.data.docs[0].author_name[0];
+  await Book.addNewBook(
+    author,
+    title,
+    description,
+    rating,
+    genre,
+    date,
+    book_id
+  );
+  res.redirect("/");
+};

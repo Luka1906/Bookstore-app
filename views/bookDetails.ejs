@@ -19,11 +19,13 @@
             </div>
             
             <p class="details-description"><%= book.description %></p>
-            <div class="buttons">
-                <button class="delete">Delete</button>
-                <button class="edit">Edit</button>
-            </div>
-          
+            <textarea class="edit-input hidden"><%= book.description %></textarea>
+             <div class="buttons">
+            <button class="delete-btn">Delete</button>
+            <button class="edit-btn" data-id=<%= book.book_id%> >Edit</button>
+            <button class="save-btn hidden" data-id=<%= book.book_id%>>Save</button>
+        </div>
+      
         </div>
        
        

@@ -21,7 +21,8 @@ app.use("/sortBy", bookRoutes)
 app.use("/search", bookRoutes);
 app.use("/all", bookRoutes)
 app.use("/addToFavourites", bookRoutes)
-app.use("/addBook-form",bookRoutes)
+app.use("/addBook-form",bookRoutes);
+app.use("/editBook", bookRoutes)
 
 
 // Server set up
