@@ -21,6 +21,9 @@ router.put("/editBook/:id", updateController.editBook)
 // POST routess
 router.post("/addBook-form", bookController.addNewBook)
 
+// DELETE routes
+router.delete("/deleteBook/:id",updateController.deleteBook)
+
 
 
 

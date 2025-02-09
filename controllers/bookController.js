@@ -11,11 +11,11 @@ export const getAllBooks = async (req, res) => {
     const bookCount = books.rowCount;
 
     const categories = bookData.map((book) => book.category);
-    console.log(categories);
+
     const allCategories = categories.flatMap((category) =>
       category.split(",").map((g) => g.trim())
     );
-    console.log(allCategories);
+   
     const uniqueCategories = [
       ...new Set(
         allCategories.map((genre) => genre.toLowerCase()) // Convert all to lowercase before uniqueness check
@@ -28,7 +28,6 @@ export const getAllBooks = async (req, res) => {
         .join(" ");
     });
 
-    // console.log(uniqueCategories);
 
     res.render("index.ejs", {
       books: bookData,

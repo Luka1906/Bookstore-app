@@ -1,7 +1,7 @@
 
 <%-include("partials/header.ejs")%>
 
-    <div class="book-details">
+ <div class="book-details">
             <img class="details-img" src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-L.jpg"/>
            
         <div class="details">
@@ -15,22 +15,33 @@
             <div class="details-rating">
             <p>My rating:</p>
             <%- include('partials/bookRating.ejs', {book}) %>
-
-            </div>
-            
+            </div>    
             <p class="details-description"><%= book.description %></p>
             <textarea class="edit-input hidden"><%= book.description %></textarea>
              <div class="buttons">
-            <button class="delete-btn">Delete</button>
-            <button class="edit-btn" data-id=<%= book.book_id%> >Edit</button>
+            <button class="delete-btn red-btn">Delete</button>
+            <button class="edit-btn grey-btn" data-id=<%= book.book_id%> >Edit</button>
             <button class="save-btn hidden" data-id=<%= book.book_id%>>Save</button>
+        </div>  
+    </div>   
+ </div>
+ <div class="modal hidden">
+    <div class="modal-content">
+        <span  class="close-icon">&times;</span>
+
+            <h2>Delete book?</h2>
+
+  
+   
+        <p>Are you sure you want to delete this book?</p>
+        <div class="modal-buttons">
+            <button class="cancel-btn grey-btn ">Cancel</button>
+            <button class="btn-delete red-btn" data-id=<%= book.book_id %>>Delete</button>
         </div>
-      
-        </div>
-       
-       
-    
+     
+
     </div>
+ </div>
    
 
 <%-include('partials/footer.ejs')%>
