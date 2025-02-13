@@ -3,12 +3,20 @@ import * as Book from "../models/bookModel.js";
 
 export const getAllBooks = async (req, res) => {
   try {
+    let {page} = req.query;
+    page = parseInt(page) || 1 // Default to page 1 if no page query
+    const limit = 8; // Number of books per page
+    const offset = (page - 1) * limit; // Offset for pagination
+
     const [books, carouselBooks] = await Promise.all([
-      Book.getBooks(),
+      Book.getBooks(limit, offset),
       Book.getCarouselBooks(),
     ]);
+   
     const bookData = books.rows;
-    const bookCount = books.rowCount;
+    const bookTotal = books.rowCount;
+    const totalPages = Math.ceil(bookTotal/limit);
+
 
     const categories = bookData.map((book) => book.category);
 
@@ -31,9 +39,11 @@ export const getAllBooks = async (req, res) => {
 
     res.render("index.ejs", {
       books: bookData,
-      bookCount,
+      bookCount:books.rowCount,
       carouselBooks,
       genres: uniqueCategories,
+      currentPage: page,
+      totalPages: totalPages,
     });
   } catch (error) {
     res.status(500).send("Error fetching books");

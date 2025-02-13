@@ -1,10 +1,11 @@
 import db from "../config/db.js";
 
-export const getBooks = async () => {
+export const getBooks = async (limit,offset) => {
   
-  const result = await db.query("SELECT * FROM books ORDER BY title");
+  const result = await db.query("SELECT * FROM books ORDER BY rating LIMIT $1 OFFSET $2", [limit,offset]);
+  const totalBooks = await db.query('SELECT COUNT(*) FROM books');
 
-  return { rows: result.rows, rowCount: result.rowCount };
+  return { rows: result.rows, rowCount: totalBooks.rows[0].count};
 };
 
 export const getCarouselBooks = async () => {

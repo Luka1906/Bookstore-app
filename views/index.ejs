@@ -80,12 +80,6 @@
                         <div class="image-section">
                           <a href="book/<%= book.book_id %>" target="_blank"><img src="https://covers.openlibrary.org/b/id/<%=book.book_id%>-M.jpg"/></a>
                         </div>
-                          <!-- <form action="/submit-rating" method="POST">
-                            <label for="newRating">Rate this product:</label>
-                            <input type="number" name="newRating" min="1" max="5" id="newRating" required>
-                            <input type="hidden" name="productId" value="product-123">
-                            <button type="submit">Submit Rating</button>
-                          </form>                             -->
                         <div class="book-description">
                             <p class="book-title"><%= book.title %></p>
                             <p><%=book.author%></p>
@@ -100,6 +94,22 @@
                <% }); %>
                 </div>
               </div>
+                  <!-- Pagination -->
+                  <ul class="pagination">
+                    <% if (currentPage > 1) { %>
+                      <li><a href="/?page=<%= currentPage - 1 %>" class="pagination-btn">Previous</a></li>
+                      <% } %>
+                      <% for (let i = 1; i <=totalPages; i++)  {%>
+                        <li>
+                          <a href="/?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %> pagination-btn" >
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                          <li><a href="/?page=<%= currentPage + 1 %>" class="pagination-btn">Next</a></li>
+                          <% } %>
+                  </ul>
             
 
   

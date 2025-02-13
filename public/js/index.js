@@ -310,6 +310,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addToFavourites();
 
+  // Pagination scroll functionality
+
+  const scroolToBooks = () => {
+    const books = document.querySelector(".books-wrapper");
+    books.scrollIntoView({behavior:"smooth"})
+  };
+
+  const paginationBtns = document.querySelectorAll(".pagination-btn");
+  paginationBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+     scroolToBooks()
+    } )
+  })
+
+
+
   // BookDetailsPage
 
   const setupReadMoreFeature = () => {

@@ -23,10 +23,20 @@ nav {
   height: 10vh;
 }
 
+.web-title {
+  text-decoration: none;
+  color: #333;
+}
+
 /* Search section */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
 .search-wrapper {
-  position: relative;
   width: 18.5rem;
+  position: relative;
 }
 .search-input {
   width: 100%;
@@ -37,6 +47,17 @@ nav {
   background-color: #f0f0f0;
   color: #333;
   outline: none;
+
+}
+
+.search-icon {
+  background: #d85c00;
+  color: #f0f0f0;
+  border-radius:4px ;
+  padding: 0.35rem;
+  cursor: pointer;
+  
+
 }
 .search-input:focus {
   outline: none;
@@ -108,10 +129,6 @@ nav {
   color: inherit;
 }
 
-.header-section a .active {
-  color: #d85c00;
-  font-weight: 700;
-}
 
 .active {
   color: #d85c00 !important;
@@ -172,8 +189,8 @@ nav {
   width: 9rem;
 }
 
-.slider-item button:hover {
-  /* background-color: #0056b3; */
+.slider-container button:hover {
+  background-color: #d85c00;
 }
 /* Navigation buttons */
 
@@ -281,6 +298,7 @@ select {
   text-align: center;
 }
 
+
 /* Sorting Section */
 
 .sort-books-section {
@@ -331,11 +349,39 @@ select {
   text-decoration: none;
   color: #333;
 }
+.collection-options li:hover {
+  background-color: #eaeaea;
+
+}
 
 .genre-options li {
   list-style: none;
   padding: 0.4rem 0;
   cursor: pointer;
+}
+.genre-options li:hover {
+  background-color: #eaeaea;
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  margin-top: 2rem;
+}
+.pagination li {
+  margin: 0 5px;
+}
+.pagination a {
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  color: #333;
+}
+.pagination a:hover {
+  background-color: #eaeaea;
 }
 
 /* Book Details Page */
