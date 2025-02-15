@@ -31,7 +31,7 @@
        
           <!-- Main Part -->
 
-          <form class="sort-form" action="/sort" method="post"></form>
+     
             <div class="select-dropdown">
               <label for="sort">Sort By: </label>
               <select name="sort" id="sort">
@@ -40,8 +40,10 @@
                 <option value="title">Title</option>
               </select>
             </div>
-         
-       
+        
+              <div class="added-message hidden"></div>
+    
+          
           <div class="books-wrapper">    
               <div class="sort-books-section">
                   <div class="collection-wrapper">
@@ -51,7 +53,7 @@
                      <button class="collection-arrow-down aside-arrow-down hidden"> <i class="fas fa-chevron-down"></i></button>
                     </div>
                     <ul class="collection-options">
-                     <li class="allBooks-list-item">All (<%= bookCount %>)</li>
+                     <a href="/"><li class="allBooks-list-item">All (<%= bookCount %>)</li></a>
                       <li><a href="/favourites">My Favourites</a> </li>
                       <li><a href="/addBook">Add To Collection</a> </li>
                     </ul>
@@ -70,6 +72,15 @@
                       <% }) %>
                         </ul>
                   </div>         
+              </div>
+
+              <!-- Loading modal -->
+
+              <div id="loading-modal" class="loading-modal  modal hidden">
+                <div class="loading-content">
+                  <div class="loader"></div>
+                  <p>Saving changes</p>
+                </div>
               </div>
 
               <div class="books-section">

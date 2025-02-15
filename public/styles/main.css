@@ -47,17 +47,14 @@ nav {
   background-color: #f0f0f0;
   color: #333;
   outline: none;
-
 }
 
 .search-icon {
   background: #d85c00;
   color: #f0f0f0;
-  border-radius:4px ;
+  border-radius: 4px;
   padding: 0.35rem;
   cursor: pointer;
-  
-
 }
 .search-input:focus {
   outline: none;
@@ -128,7 +125,6 @@ nav {
   text-decoration: none;
   color: inherit;
 }
-
 
 .active {
   color: #d85c00 !important;
@@ -253,6 +249,9 @@ select {
   padding-right: 1.5rem;
   font-size: 0.9rem;
 }
+.favourite-section {
+  padding: 0 1.5rem;
+}
 .image-container {
   display: flex;
   flex-direction: column;
@@ -297,7 +296,6 @@ select {
   width: 10rem;
   text-align: center;
 }
-
 
 /* Sorting Section */
 
@@ -351,7 +349,6 @@ select {
 }
 .collection-options li:hover {
   background-color: #eaeaea;
-
 }
 
 .genre-options li {
@@ -474,7 +471,6 @@ select {
 /* Rating (stars) */
 
 .rating {
-  color: lightgray;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -603,6 +599,43 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.loading-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading-content {
+  background: #eaeaea;
+  padding: 20px;
+  border-radius: 4px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1.2px;
+}
+.loader {
+  border: 4px solid #dfdfdf;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .modal-content {
   background: #f8f8f8;
   padding: 20px;
@@ -617,17 +650,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   animation: depthIn 0.2s ease-out forwards;
-
 }
 
 @keyframes depthIn {
   0% {
-    transform: scale(0.5);  /* Start small */
-    opacity: 0;             /* Fully invisible */
+    transform: scale(0.5);
+    opacity: 0;
   }
   100% {
-    transform: scale(1);    /* Full size */
-    opacity: 1;             /* Fully visible */
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -652,7 +684,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 50%;
   height: 2rem;
   width: 2rem;
-  color:#efefef;
+  color: #efefef;
 }
 .cancel-btn,
 .btn-delete {
@@ -660,6 +692,54 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
-
   width: 10rem;
+}
+
+/* Added Book Pop Up */
+
+.added-message {
+  background-color: #333;
+  width: 30rem;
+  color: #f8f8f8;
+  padding: 0.85rem 1rem;
+  position: fixed;
+  z-index: 1000;
+  bottom: 1.5rem;
+  left: -100%;
+  animation: slideInOut 4s ease-in-out;
+}
+
+@keyframes slideInOut {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 2%;
+  }
+  70% {
+    left: 2%;
+  }
+  90% {
+    left: -100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+.favourites-modal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+.favourites-list {
+  color: #f8f8f8;
+  text-decoration: none;
+}
+.favourites-list:hover {
+  color: #d3d3d3;
+}
+/* Favourites-Section */
+.my-list {
+  font-weight: 700;
+  padding: 1rem 1.5rem;
 }

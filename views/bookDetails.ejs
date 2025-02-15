@@ -14,7 +14,7 @@
             <p>Date read: <span></span> <%= book.date.toLocaleDateString('en-US') %></p>
             <div class="details-rating">
             <p>My rating:</p>
-            <%- include('partials/bookRating.ejs', {book}) %>
+            <%- include('partials/bookRating.ejs', {book}) %><span class="rating-number"><%= book.rating%> out of 5</span>
             </div>    
             <p class="details-description"><%= book.description %></p>
             <textarea class="edit-input hidden"><%= book.description %></textarea>
