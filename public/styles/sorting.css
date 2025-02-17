@@ -1,0 +1,64 @@
+/* Sorting Section */
+
+.sort-books-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #f8f8f8;
+    padding: 0 1.5rem;
+  }
+  
+  .aside-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .aside-arrow-down,
+  .aside-arrow-up {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333;
+  }
+  .aside-arrow-down:hover,
+  .aside-arrow-up:hover {
+    color: #ccc;
+  }
+  .aside-arrow-down:active,
+  .aside-arrow-up:active {
+    transform: scale(1.2);
+  }
+  .hidden {
+    display: none !important;
+  }
+  .collection-heading,
+  .genre-heading {
+    color: #d85c00;
+    border-bottom: 1.5px solid #d3d3d3;
+    width: 80%;
+  }
+  
+  .collection-options li {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.8rem 0;
+  }
+  .collection-options li a {
+    text-decoration: none;
+    color: #333;
+  }
+  .collection-options li:hover {
+    background-color: #eaeaea;
+  }
+  
+  .genre-options li {
+    list-style: none;
+    padding: 0.4rem 0;
+    cursor: pointer;
+  }
+  .genre-options li:hover {
+    background-color: #eaeaea;
+  }
+  
+  

@@ -1,0 +1,88 @@
+/* Book Details Page */
+
+.book-details {
+    display: flex;
+    justify-content: space-around;
+  
+    padding: 3rem 0;
+  }
+  
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .details-img {
+    width: 20rem;
+    height: 30rem;
+  }
+  
+  .details-description {
+    line-height: 1.7rem;
+    width: 45rem;
+    text-align: justify;
+  }
+  .details-title {
+    color: #d85c00;
+  }
+  .author-details {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+  }
+  .author-name {
+    font-weight: 700;
+  }
+  
+  .details-rating {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .details-genre {
+    font-weight: 700;
+  }
+  
+  .description-buttons {
+    border: none;
+    cursor: pointer;
+    background: #fff4e0;
+    color: #d85c00;
+    padding: 0.4rem;
+    font-weight: 700;
+  }
+  .buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .buttons button {
+    width: 11rem;
+    padding: 0.4rem 0;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .red-btn {
+    background-color: #d85c00;
+    border: none;
+    border-radius: 0.3rem;
+    color: #f8f8f8;
+    font-weight: 700;
+  }
+  
+  .grey-btn {
+    border: none;
+    border-radius: 0.3rem;
+    background-color: #ececec;
+    color: #333;
+    font-weight: 700;
+  }
+  .save-btn {
+    background-color: #28a745;
+    color: #f8f8f8;
+    font-weight: 700;
+    border: none;
+    border-radius: 0.3rem;
+  }
+  
+  

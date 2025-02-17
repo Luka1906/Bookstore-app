@@ -1,0 +1,59 @@
+<%- include('partials/header.ejs') %>
+
+<form class="signIn-form" action="/signIn" method="post">
+    <div class="form-wrapper">
+      <h2 class="form-header">Sign In</h2>
+      <label for="email">Email <span class="form-star">*</span></label>
+      <input type="email" name="email" class="form-input" id="email" />
+      <div class="pass-wrapper">
+          <label for="password1">Password <span class="form-star">*</span></label>
+          <input
+            type="password"
+            name="password"
+            data-target="password1"
+            class="form-input pass-input"
+            id="password1"
+          />
+          <i class="fa fa-eye toggle-password" data-target="password1"></i> <!-- Eye icon -->
+      </div>
+      <p  id="login-query" class="register-link">Not registered yet?</p>
+      <button class="form-button signIn-btn" type="submit">Sign In</button>
+    </div>
+  </form>
+  
+  <form class="register-form hidden" action="/register" method="post">
+    <div class="form-wrapper">
+      <h2 class="form-header">Register</h2>
+      <label for="name-reg">Name <span class="form-star">*</span></label>
+      <input type="name" name="name" class="form-input" id="name-reg" />
+      <label for="email-reg">Email <span class="form-star">*</span></label>
+      <input type="email" name="email" class="form-input" id="email-reg" />
+      <div class="pass-wrapper">
+        <label for="password2">Password <span class="form-star">*</span></label>
+        <input
+          type="password"
+          name="password"
+          data-target="password2"
+          class="form-input pass-input"
+          id="password2"
+        />
+        <i class="fa fa-eye toggle-password" data-target="password2"></i> <!-- Eye icon -->
+      </div>
+      <div class="pass-wrapper">
+        <label for="password3">Confirm Password<span class="form-star">*</span></label>
+        <input
+          type="password"
+          name="confirmPassword"
+          data-target="password3"
+          class="form-input pass-input"
+          id="password3"
+        />
+        <i class="fa fa-eye toggle-password" data-target="password3"></i> <!-- Eye icon -->
+      </div>
+      <p class="register-link" id="register-query">Already have account?</p>
+      <button class="form-button signIn-btn" type="submit">Register</button>
+    </div>
+  </form>
+  
+
+<%- include('partials/footer.ejs') %>

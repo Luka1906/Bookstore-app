@@ -1,5 +1,6 @@
 import express from "express";
 import bookRoutes from "./routes/bookRoutes.js";
+import sessionMiddleWare from "./config/sessionConfig.js";
 
 
 const app = express();
@@ -9,7 +10,8 @@ const port = 3000;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json());
+app.use(sessionMiddleWare);
 
 // Routes
 

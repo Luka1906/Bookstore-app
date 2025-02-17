@@ -11,6 +11,7 @@ const db = new pg.Client({
   password: process.env.DB_PASS,
 });
 
+
 db.connect();
 
 export default db;

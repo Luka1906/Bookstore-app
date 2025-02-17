@@ -1,7 +1,8 @@
 import express from "express";
 import * as bookController from "../controllers/bookController.js";
 import * as sortController from "../controllers/sortController.js";
-import * as updateController from "../controllers/updateController.js"
+import * as updateController from "../controllers/updateController.js";
+import * as authenticationController from "../controllers/authenticationController.js"
 const router = express.Router();
 
 // GET routes
@@ -13,6 +14,7 @@ router.get("/book/:id", bookController.getBook);
 router.get("/sortBy", sortController.getSortedBooks);
 router.get("/search", sortController.getSearchedBook);
 router.get("/all", sortController.getAllCollection );
+router.get("/signIn",authenticationController.getSignIn)
 
 // PUT routes
 router.put("/addToFavourites", updateController.updateFavouriteBooks);

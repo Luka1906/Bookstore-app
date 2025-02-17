@@ -3,6 +3,7 @@
 export const setUpBookDetails = () => {
   const description = document.querySelector(".details-description");
 
+
   if (description && description.textContent.length > 500) {
     const originalText = description.textContent; // Save the full text
     const partialText = originalText.slice(0, 500) + "... "; // Trimmed text
@@ -14,7 +15,7 @@ export const setUpBookDetails = () => {
     let readMoreBtn = description.querySelector(".read-more-btn");
     let readLessBtn = description.querySelector(".read-less-btn");
 
-    if (!readMoreBtn) 
+    if (!readMoreBtn) {
       // Create "Read More" button
       readMoreBtn = document.createElement("button");
       readMoreBtn.classList.add("description-buttons", "read-more-btn");
