@@ -3,6 +3,7 @@ import * as Book from "../models/bookModel.js";
 
 export const getAllBooks = async (req, res) => {
   try {
+    console.log(req.user + ' LUKA CAR')
     let {page} = req.query;
     page = parseInt(page) || 1 // Default to page 1 if no page query
     const limit = 8; // Number of books per page

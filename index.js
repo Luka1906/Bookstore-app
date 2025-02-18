@@ -1,32 +1,27 @@
 import express from "express";
 import bookRoutes from "./routes/bookRoutes.js";
-import sessionMiddleWare from "./config/sessionConfig.js";
-
+import authRoutes from "./routes/authRoutes.js";
+import {sessionMiddleWare} from "./config/sessionConfig.js";
 
 const app = express();
 const port = 3000;
 
 // Middlewares
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(sessionMiddleWare);
+app.use(express.static("public"));
 
 // Routes
 
-app.use("/", bookRoutes);
-app.use("/addBook", bookRoutes);
-app.use("/favourites", bookRoutes);
-app.use("/book/:id", bookRoutes );
-app.use("/sortBy", bookRoutes)
-app.use("/search", bookRoutes);
-app.use("/all", bookRoutes)
-app.use("/addToFavourites", bookRoutes)
-app.use("/addBook-form",bookRoutes);
-app.use("/editBook/:id", bookRoutes)
-app.use("/deleteBook/:id", bookRoutes)
+// Book Routes
 
+app.use(bookRoutes);
+
+// Auth Routes
+
+app.use(authRoutes);
 
 // Server set up
 app.listen(port, () => {
