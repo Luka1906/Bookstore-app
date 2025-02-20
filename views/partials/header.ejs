@@ -33,8 +33,19 @@
           <i class="fas fa-search search-icon"></i>
         </div>
       </div>
+      <div class="login-nav">
 
-      <a class="signIn-link" href="/signIn">Sign in</a>
+        <% if (user) { %>
+          <p>Welcome, <span><%= user.username %></span></p>
+          <form class="nav-form" action="/signOut" method="post">
+          <button class="signOut-btn" >Sign Out</button>
+        </form>
+          <% } else { %>
+            <form class="nav-form" action="/signIn" method="get">
+              <button class="logIn-btn" >Sign In</button>
+            </form>
+            <% } %>
+      </div>
     </nav>
     <ul class="header-section">
       <li>

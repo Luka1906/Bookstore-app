@@ -1,7 +1,7 @@
 import express from "express";
 import bookRoutes from "./routes/bookRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import {sessionMiddleWare} from "./config/sessionConfig.js";
+import { sessionMiddleWare, sessionUser } from "./config/sessionConfig.js";
 
 const app = express();
 const port = 3000;
@@ -11,6 +11,8 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(sessionMiddleWare);
+app.use(sessionUser)
+
 app.use(express.static("public"));
 
 // Routes

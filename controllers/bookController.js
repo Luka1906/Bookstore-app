@@ -3,9 +3,9 @@ import * as Book from "../models/bookModel.js";
 
 export const getAllBooks = async (req, res) => {
   try {
-    console.log(req.user + ' LUKA CAR')
-    let {page} = req.query;
-    page = parseInt(page) || 1 // Default to page 1 if no page query
+    console.log("Session before rendering:", req.session);
+    let { page } = req.query;
+    page = parseInt(page) || 1; // Default to page 1 if no page query
     const limit = 8; // Number of books per page
     const offset = (page - 1) * limit; // Offset for pagination
 
@@ -13,22 +13,21 @@ export const getAllBooks = async (req, res) => {
       Book.getBooks(limit, offset),
       Book.getCarouselBooks(),
     ]);
-   
+
     const bookData = books.rows;
     const bookTotal = books.rowCount;
-    const totalPages = Math.ceil(bookTotal/limit);
-
+    const totalPages = Math.ceil(bookTotal / limit);
 
     const categories = bookData.map((book) => book.category);
 
     const allCategories = categories.flatMap((category) =>
       category.split(",").map((g) => g.trim())
     );
-   
+
     const uniqueCategories = [
       ...new Set(
         allCategories.map((genre) => genre.toLowerCase()) // Convert all to lowercase before uniqueness check
-      )
+      ),
     ].map((genre) => {
       // Re-capitalize the first letter properly after uniqueness check
       return genre
@@ -37,10 +36,9 @@ export const getAllBooks = async (req, res) => {
         .join(" ");
     });
 
-
     res.render("index.ejs", {
       books: bookData,
-      bookCount:books.rowCount,
+      bookCount: books.rowCount,
       carouselBooks,
       genres: uniqueCategories,
       currentPage: page,

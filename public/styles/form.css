@@ -106,3 +106,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   color: grey;
 }
+/* Error display */
+.error-container {
+  position: relative;
+}
+.exclamation-icon {
+  position: absolute;
+  top: 50%;
+  width: 5rem;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #dc3545;
+  font-size: large;
+}
+.vertical-line {
+  position: absolute;
+  border-left: 1px solid #dc3545;
+  padding: 17px 0px;
+  left: 5rem; /* Position horizontally as you like */
+  top: 50%; /* Position at 50% of the container height */
+  transform: translateY(
+    -50%
+  ); /* Adjust by half the height of the element to center it vertically */
+}
+
+.error-msg {
+  display: flex;
+  align-items: center;
+  background-color: #f8d7da; /* Light red background */
+  border: 1px solid #dc3545; /* Red border on the left */
+  color: #dc3545;
+  padding: 12px 90px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Register Validation */
+
+.input-error {
+  border: 2px solid #dc3545;
+}
+.error-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-top: 5px;
+}

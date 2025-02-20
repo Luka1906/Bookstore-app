@@ -11,6 +11,7 @@ router.get("/signIn", authController.getSignIn)
 
 router.post("/signIn",authController.signInUser);
 router.post("/register",authController.registerUser);
+router.post("/signOut", authController.signOutUser)
 
 export default router;
 

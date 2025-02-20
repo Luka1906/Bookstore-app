@@ -1,41 +1,32 @@
 import session from "express-session";
-import { Sequelize } from "sequelize";
-import connectSessionSequelize from "connect-session-sequelize";
+import pgSession from "connect-pg-simple";
 import dotenv from "dotenv";
-
 
 dotenv.config();
 
-// Initialize Sequelize 
-const sequelize = new Sequelize(`postgres://postgres:${process.env.DB_PASS}@localhost:5432/bookstore`);
-try {
-    await sequelize.authenticate();
-    console.log('Database connection established.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-};
-// Define the session store
-const SequelizeStore = connectSessionSequelize(session.Store);
-
-const sessionStore = new SequelizeStore({
-    db:sequelize
+// Initialize PostgreSQL Session Store
+const PgSession = pgSession(session);
+const sessionStore = new PgSession({
+  conObject: {
+    connectionString: `postgres://postgres:${process.env.DB_PASS}@localhost:5432/bookstore`,
+  },
+  tableName: "session", // Default table is 'session'
 });
 
-
-
+// Session Middleware Configuration
 const sessionMiddleWare = session({
-    secret: process.env.SESSION_SECRET || "default_secret",
-    resave: false,
-    saveUninitialized: false,
-    store:sessionStore,
-    cookie: {
-      secure: process.env.NODE_ENV === "production", // only use secure cookies in production
-      maxAge: 1000 * 60 * 60, // 1 hour
-    },
-  });
-  // Sync session store with the database
-sessionStore.sync();
+  secret: process.env.SESSION_SECRET || "default_secret",
+  resave: false, // Don't resave session if unchanged
+  saveUninitialized: false, // Don't save empty sessions
+  store: sessionStore,
+  cookie: {
+    secure:false,// Only use secure cookies in production
+    httpOnly: true, // Prevent client-side JavaScript access
+    maxAge: 1000 * 60 * 60, // 1 hour session duration
+  },
+});
 
+// Middleware for authentication
 const isAuthenticated = (req, res, next) => {
   if (req.session.user) {
     return next();
@@ -43,4 +34,10 @@ const isAuthenticated = (req, res, next) => {
   res.redirect("/signIn");
 };
 
-export { sessionMiddleWare, isAuthenticated };
+// Middleware to make session user available in views
+const sessionUser = (req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+};
+
+export { sessionMiddleWare, isAuthenticated, sessionUser };
