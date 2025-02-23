@@ -46,7 +46,7 @@ export const setUpSearch = () => {
       div.addEventListener("click", () => {
         searchInput.value = book.title;
         dropdown.style.display = "none";
-        // window.location.href = `book/${book.book_id}`
+      
       });
       dropdown.appendChild(div);
     });

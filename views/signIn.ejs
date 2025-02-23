@@ -7,13 +7,13 @@
         <div class="error-container">
             <div class="vertical-line"></div>
             <i class="fas fa-exclamation-circle exclamation-icon"></i> <!-- Exclamation circle icon -->
-
             <p class="error-msg"><%= error %></p>
         </div>
 
       <% } %>
       <label for="email">Email <span class="form-star">*</span></label>
       <input type="email" name="email" class="form-input" id="email" />
+      <span class="error-message emailLogError"></span>
       <div class="pass-wrapper">
           <label for="password1">Password <span class="form-star">*</span></label>
           <input
@@ -25,6 +25,7 @@
           />
           <i class="fa fa-eye toggle-password" data-target="password1"></i> <!-- Eye icon -->
       </div>
+      <span class="error-message passwordLogError" ></span>
       <p  id="login-query" class="register-link">Not registered yet?</p>
       <button class="form-button signIn-btn" type="submit">Sign In</button>
     </div>
@@ -35,10 +36,10 @@
       <h2 class="form-header">Register</h2>
       <label for="name-reg">Name <span class="form-star">*</span></label>
       <input type="name" name="name" class="form-input" id="name-reg" />
-      <span class="error-message" id="usernameError"></span>
+      <span class="error-message usernameError"></span>
       <label for="email-reg">Email <span class="form-star">*</span></label>
       <input type="email" name="email" class="form-input" id="email-reg" />
-      <span class="error-message" id="emailError"></span>
+      <span class="error-message emailRegError"></span>
       <div class="pass-wrapper">
         <label for="password2">Password <span class="form-star">*</span></label>
         <input
@@ -50,7 +51,7 @@
         />
         <i class="fa fa-eye toggle-password" data-target="password2"></i> <!-- Eye icon -->
       </div>
-      <span class="error-message" id="passwordError"></span>
+      <span class="error-message passwordRegError" ></span>
       <div class="pass-wrapper">
         <label for="password3">Confirm Password<span class="form-star">*</span></label>
         <input
@@ -64,7 +65,7 @@
         <i class="fa-solid fa-circle-check hidden pass-match-icon"></i>
 
       </div>
-      <span class="error-message" id="confirmPasswordError"></span>
+      <span class="error-message confirmPasswordError"></span>
       <p class="register-link" id="register-query">Already have account?</p>
       <button class="form-button signIn-btn" type="submit">Register</button>
     </div>

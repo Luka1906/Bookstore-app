@@ -1,6 +1,7 @@
 // BookDetailsPage
 
 export const setUpBookDetails = () => {
+    
   const description = document.querySelector(".details-description");
 
 
@@ -81,7 +82,7 @@ export const setUpBookDetails = () => {
         editInput.classList.add("hidden");
         editBtn.classList.remove("hidden");
         saveBtn.classList.add("hidden");
-        setupReadMoreFeature();
+        window.location.href = ""
       }
     } catch (error) {
       console.error("Error updating book:", error);
@@ -128,7 +129,7 @@ export const setUpBookDetails = () => {
       );
 
       if (response.data.deletedBook) {
-        window.location.href = "/";
+     window.location.href = `book/${bookId}`
       } else {
         console.log("Failed to delete item");
       }

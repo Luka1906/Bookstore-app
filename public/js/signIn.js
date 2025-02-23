@@ -7,7 +7,7 @@ export const setUpSignIn = () => {
 
       if (!passwordField) return;
 
-      const clickedIcon = event.target; // The clicked icon
+      const clickedIcon = event.currentTarget; // The clicked icon
 
       if (passwordField.type === "password") {
         passwordField.type = "text"; // Show password
@@ -27,28 +27,45 @@ export const setUpSignIn = () => {
   const loginForm = document.querySelector(".signIn-form");
   const registerForm = document.querySelector(".register-form");
 
+  const clearForm = (form) => {
+    form.querySelectorAll("input").forEach((input) => {
+      input.value = "";
+      input.classList.remove("input-error");
+    });
+
+    form.querySelectorAll(".error-message").forEach((error) => {
+      error.textContent = "";
+    });
+    if (form.querySelector(".pass-match-icon")) {
+      form.querySelector(".pass-match-icon").classList.add("hidden");
+    }
+  };
+
   loginLink.addEventListener("click", () => {
     loginForm.classList.add("hidden");
     registerForm.classList.remove("hidden");
+    clearForm(registerForm);
   });
 
   registerLink.addEventListener("click", () => {
     loginForm.classList.remove("hidden");
     registerForm.classList.add("hidden");
+    clearForm(loginForm);
   });
 
-  //  Register Form Validations
+  //  Register and Login Form Validations
 
   const usernameField = document.querySelector("#name-reg");
-  console.log(usernameField);
-  const emailField = document.querySelector("#email-reg");
-  const passwordField = document.querySelector("#password2");
+  const regEmailField = document.querySelector("#email-reg");
+  const regPasswordField = document.querySelector("#password2");
   const confirmPasswordField = document.querySelector("#password3");
+  const logEmailField = document.querySelector("#email");
+  const logPasswordField = document.querySelector("#password1");
 
   //   Username Validate Function
   const validateUsername = () => {
     const username = usernameField.value;
-    const usernameError = document.querySelector("#usernameError");
+    const usernameError = document.querySelector(".usernameError");
     const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     if (!username) {
@@ -71,83 +88,132 @@ export const setUpSignIn = () => {
 
   //   Email Validate Function
 
-  const validateEmail = () => {
-    const email = emailField.value;
-    const emailError = document.querySelector("#emailError");
+  const validateEmail = (emailInput, errorSelector) => {
+    const email = emailInput.value;
+    const emailError = document.querySelector(errorSelector);
+    console.log(emailError);
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
     if (!email) {
       emailError.textContent = "Email is required";
-      emailField.classList.add("input-error");
+      emailInput.classList.add("input-error");
     } else if (!emailRegex.test(email)) {
       emailError.textContent = "Invalid email format";
-      emailField.classList.add("input-error");
+      emailInput.classList.add("input-error");
     } else {
       emailError.textContent = "";
-      emailField.classList.remove("input-error");
+      emailInput.classList.remove("input-error");
     }
   };
 
   //   Password Validate Function
 
-  const validatePassword = () => {
-    const password = passwordField.value;
-    const passwordError = document.querySelector("#passwordError");
+  let isPasswordValid = false;
+  const validatePassword = (passwordInput, errorSelector) => {
+    const password = passwordInput.value;
+    const passwordError = document.querySelector(errorSelector);
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
     if (!password) {
       passwordError.textContent = "Password is required.";
-      passwordField.classList.add("input-error");
+      passwordInput.classList.add("input-error");
+      isPasswordValid = false;
     } else if (!passwordRegex.test(password)) {
       passwordError.textContent =
-        "Password must contain at least one uppercase letter, one number, and one special character.";
-      passwordField.classList.add("input-error");
+        "Password must be at least 3 characters long, contain at least one uppercase letter, one number, and one special character.";
+      passwordInput.classList.add("input-error");
+      isPasswordValid = false;
     } else {
       passwordError.textContent = "";
-      passwordField.classList.remove("input-error");
+      passwordInput.classList.remove("input-error");
+      isPasswordValid = true;
+    }
+    if (confirmPasswordField.value) {
+      validateConfirmPassword();
     }
   };
 
-//   ConfirmPassword Validate Function
+  //   ConfirmPassword Validate Function
 
-const validateConfirmPassword = () => {
+  const validateConfirmPassword = () => {
     const confirmPassword = confirmPasswordField.value;
-    const password = passwordField.value;
-    const confirmPasswordError = document.querySelector("#confirmPasswordError");
-    const paswordMatchIcon = document.querySelector(".pass-match-icon")
+    const password = regPasswordField.value;
+    const confirmPasswordError = document.querySelector(
+      ".confirmPasswordError"
+    );
 
-    if(!confirmPasswordError) {
-        confirmPasswordError.textContent = "Confirm password is required.";
-        confirmPasswordField.classList.add("input-error");
-        paswordMatchIcon.classList.add("hidden")
+    const passwordMatchIcon = document.querySelector(".pass-match-icon");
 
+    if (!confirmPassword) {
+      confirmPasswordError.textContent = "Confirm password is required.";
+      confirmPasswordField.classList.add("input-error");
+      passwordMatchIcon.classList.add("hidden");
     } else if (confirmPassword !== password) {
-        confirmPasswordError.textContent = "Passwords do not match.";
-        confirmPasswordField.classList.add("input-error");
-        paswordMatchIcon.classList.add("hidden")
+      confirmPasswordError.textContent = "Passwords do not match.";
+      confirmPasswordField.classList.add("input-error");
+      passwordMatchIcon.classList.add("hidden");
+    } else if (!isPasswordValid) {
+      // Hide match icon if password format is incorrect
 
-} else {
-    confirmPasswordError.textContent = "";
-    confirmPasswordField.classList.remove("input-error");
-    paswordMatchIcon.classList.remove("hidden")
-    
-}
-}
+      passwordMatchIcon.classList.add("hidden");
+    } else {
+      confirmPasswordError.textContent = "";
+      confirmPasswordField.classList.remove("input-error");
+      passwordMatchIcon.classList.remove("hidden");
+    }
+  };
+
   // Event listeners for real-time validation
   usernameField.addEventListener("input", validateUsername);
-  emailField.addEventListener("input", validateEmail);
-  passwordField.addEventListener("input", validatePassword);
-  confirmPasswordField.addEventListener("input",validateConfirmPassword)
+  usernameField.addEventListener("blur", validateUsername);
+  regEmailField.addEventListener("input", () =>
+    validateEmail(regEmailField, ".emailRegError")
+  );
+  regEmailField.addEventListener("blur", () =>
+    validateEmail(regEmailField, ".emailRegError")
+  );
+  logEmailField.addEventListener("input", () =>
+    validateEmail(logEmailField, ".emailLogError")
+  );
 
-  //   Form Submission
+  logEmailField.addEventListener("blur", () =>
+    validateEmail(logEmailField, ".emailLogError")
+  );
+  regPasswordField.addEventListener("input", () =>
+    validatePassword(regPasswordField, ".passwordRegError")
+  );
+  regPasswordField.addEventListener("blur", () =>
+    validatePassword(regPasswordField, ".passwordRegError")
+  );
+  logPasswordField.addEventListener("input", () =>
+    validatePassword(logPasswordField, ".passwordLogError")
+  );
+  logPasswordField.addEventListener("blur", () =>
+    validatePassword(logPasswordField, ".passwordLogError")
+  );
+  confirmPasswordField.addEventListener("input", validateConfirmPassword);
+  confirmPasswordField.addEventListener("blur", validateConfirmPassword);
+
+  //   Register Form Submission
   registerForm.addEventListener("submit", (event) => {
     validateUsername(); //Check if username is valid
-    validateEmail(); //Check if email is valid
-    validatePassword(); //Check if password is valid
+    validateEmail(regEmailField, ".emailRegError"); //Check if email is valid
+    validatePassword(regPasswordField, ".passwordRegError"); //Check if password is valid
     validateConfirmPassword(); //Check if confirm password is valid
 
     // If there are any error messages (fields with the "error" class), prevent form submission;
+
+    if (document.querySelectorAll(".input-error").length > 0) {
+      event.preventDefault();
+    }
+  });
+
+  // Login Form Submission
+
+  loginForm.addEventListener("submit", (event) => {
+    validateEmail(logEmailField, ".emailLogError");
+    validatePassword(logPasswordField, ".passwordLogError")
 
     if (document.querySelectorAll(".input-error").length > 0) {
       event.preventDefault();

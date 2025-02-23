@@ -151,6 +151,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .error-message {
   color: #dc3545;
   font-size: 0.9rem;
-  display: inline-block;
-  margin-top: 5px;
+  position: relative;
+
+}
+.pass-match-icon {
+  position: absolute;
+  right: -8%;
+  top: 65%; 
+  color: #d85c00;
+  font-size: 1.1rem;
+
+
 }
